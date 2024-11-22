@@ -10,6 +10,7 @@ import javax.swing.event.DocumentListener;
 
 import logica.Usuario;
 import logica.Zeta;
+import logica.ZetaInsertDTO;
 import logica.Servicios.IZetasServicio;
 
 import javax.swing.border.EtchedBorder;
@@ -42,9 +43,10 @@ public class HomePanel extends JPanel implements ChangeListener{
 	/**
 	 * Create the panel.
 	 */
-	public HomePanel(Usuario u) {
+	public HomePanel(Usuario u, IZetasServicio zetaServicio ) {
 		setLayout(new BorderLayout(0, 0));
 		actualUsuario = u;
+		this.zetaServicio = zetaServicio;
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.EAST);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -289,7 +291,8 @@ public class HomePanel extends JPanel implements ChangeListener{
 	}
 	
 	public void agregarZeta() {
-		Zeta z = new Zeta(actualUsuario, txtZeta.getText(), new Date());
+		ZetaInsertDTO dto = new ZetaInsertDTO(txtZeta.getText(), "",actualUsuario);
+		Zeta z = zetaServicio.agregarZeta(dto);
 		zv.agregarZeta(z);
 		txtZeta.setText("");
 	}

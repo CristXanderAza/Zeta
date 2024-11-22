@@ -10,6 +10,7 @@ public class Zeta {
 	protected String body;
 	protected Date fechaPublicacion;
 	protected Zeta parent;
+
 	protected String imageReference;
 
 	
@@ -115,5 +116,19 @@ public class Zeta {
 		this.respuestas = respuestas;
 	}
 	
-	
+	public String getImageReference() {
+		return imageReference;
+	}
+
+	public void setImageReference(String imageReference) {
+		this.imageReference = imageReference;
+	}
+
+	public List<Respuesta> getRespuestas() {
+		return respuestas;
+	}
+
+	public void setRespuestas(List<Respuesta> respuestas) {
+		this.respuestas = respuestas;
+	}
 }

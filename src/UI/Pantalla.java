@@ -140,7 +140,7 @@ public class Pantalla {
 		panel_2.add(rdbtnNewRadioButton_1_2_1);
 		
 		JPanel ActualView = new JPanel();
-		ActualView.add(new HomePanel(user));
-		frame.getContentPane().add(new HomePanel(user), BorderLayout.CENTER);
+		ActualView.add(new HomePanel(user, zetaServicio));
+		frame.getContentPane().add(new HomePanel(user,zetaServicio), BorderLayout.CENTER);
 	}
 }
