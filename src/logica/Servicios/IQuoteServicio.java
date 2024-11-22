@@ -9,7 +9,7 @@ import logica.Usuario;
 import logica.Zeta;
 import logica.ZetaInsertDTO;
 
-public interface IQuoteRepository {
+public interface IQuoteServicio{
 
 	public Quote add(ZetaInsertDTO dto, Zeta z);
 	
