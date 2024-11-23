@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import UI.ZweetViewer;
 import logica.Zeta;
 
 import javax.swing.border.BevelBorder;
@@ -21,18 +22,22 @@ public class ZetaImagenView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Zeta zeta;
+	private ZweetViewer contenedor;
+	private Boolean activarBotones;
 
 	/**
 	 * Create the panel.
 	 */
 	public ZetaImagenView() {
 		
-		initialize("@Admin", "Reguetonero local se vuelve profesor del ITLA."
-				, "C:\\Users\\pluto\\Downloads\\MrFreidy.png");
+		initialize("Admin", "Prueba de imagen"
+				, "C:\\Users\\pluto\\Downloads\\fachada-itla-7e0fa6ea-focus-0-0-608-342.jpg");
 	}
 	
-	public ZetaImagenView(Zeta z) {
+	public ZetaImagenView(Zeta z, ZweetViewer contenedor, Boolean activar) {
 		this.zeta = z;
+		this.contenedor = contenedor;
+		this.activarBotones = activar;
 		initialize(z.getUsuario().getUsername(), z.getBody(), z.getImageReference());
 	}
 	

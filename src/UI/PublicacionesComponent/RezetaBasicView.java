@@ -10,36 +10,58 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
+import UI.ZweetViewer;
+import logica.Zeta;
+
 public class RezetaBasicView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private Zeta zeta;
+	private ZweetViewer contenedor;
+	private Boolean activarBotones;
 
 	/**
 	 * Create the panel.
 	 */
 	public RezetaBasicView() {
+
+		initialize("Admin","Este es un ejemplo de contenido largo que automáticamente<br>se ajustará al ancho del área y saltará de línea.",
+				"Fulano","Este es un ejemplo de contenido largo que automáticamente<br>se ajustará al ancho del área y saltará de línea.");
+	}
+	
+	public RezetaBasicView(Zeta z, ZweetViewer contenedor, Boolean activar) {
+
+		initialize(z.getUsuario().getUsername(), z.getParent().getUsuario().getUsername()
+				, z.getBody(), z.getParent().getBody());
+		this.contenedor = contenedor;
+		this.activarBotones = activar;
+	}
+	
+	
+	
+	private void initialize(String autor, String autorRef, String body, String bodyRef) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "@Admin", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setPreferredSize(new Dimension(400, 130));
+		panel_1.setBorder(new TitledBorder(null, "@" + autor, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setPreferredSize(new Dimension(400, 200));
 		add(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
 		panel_1.add(panel);
 		
-		JLabel lblNewLabel = new JLabel("<html>Este es un ejemplo de contenido largo que automáticamente<br>se ajustará al ancho del área y saltará de línea.</html>");
+		JLabel lblNewLabel = new JLabel("<html>"+ body.replace("\n", "<br/>") +"</html>");
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		panel.add(lblNewLabel);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "@Fulano", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(null, "@" + autorRef, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.add(panel_2);
 		
-		JLabel lblNewLabel_1 = new JLabel("<html>Este es un ejemplo de contenido largo que automáticamente<br>se ajustará al ancho del área y saltará de línea.</html>");
+		JLabel lblNewLabel_1 = new JLabel("<html>"+ bodyRef.replace("\n", "<br/>") +"</html>");
 		lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Century Gothic", Font.PLAIN, 14));
@@ -64,7 +86,6 @@ public class RezetaBasicView extends JPanel {
 		JButton btnNewButton = new JButton("Perfil");
 		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2_1.add(btnNewButton);
-
 	}
 
 }

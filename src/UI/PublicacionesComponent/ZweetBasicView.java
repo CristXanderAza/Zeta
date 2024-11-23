@@ -3,7 +3,11 @@ package UI.PublicacionesComponent;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import UI.RezetearWindow;
+import UI.ZweetViewer;
+import logica.Usuario;
 import logica.Zeta;
+import logica.Servicios.IZetasServicio;
 
 import javax.swing.JLabel;
 
@@ -19,21 +23,31 @@ public class ZweetBasicView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Zeta zeta;
+	private ZweetViewer contenedor;
+	private Boolean activarBotones;
 
 	/**
 	 * Create the panel.
 	 */
-	public ZweetBasicView(Zeta zeta) {
+	public ZweetBasicView(Zeta zeta, ZweetViewer contenedor, Boolean activarBotones) {
 		
 		this.zeta = zeta;
-		
+		this.contenedor = contenedor;
+		this.activarBotones = activarBotones;
 		initialize(zeta.getUsuario().getUsername(), zeta.getBody().toString());
+	}
+	
+	public ZweetBasicView(ZweetViewer contenedor) {
+		
+		this.zeta = null;
+		this.contenedor = contenedor;
+		initialize("Admin", "Este es un ejemplo de contenido largo que automáticamente<br>se ajustará al ancho del área y saltará de línea." );
 	}
 	
 	public ZweetBasicView() {
 		
 		this.zeta = null;
-		
+		this.contenedor = null;
 		initialize("Admin", "Este es un ejemplo de contenido largo que automáticamente<br>se ajustará al ancho del área y saltará de línea." );
 	}
 	
@@ -63,20 +77,29 @@ public class ZweetBasicView extends JPanel {
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
 		
 		JButton btnLike = new JButton("Like");
+		btnLike.setEnabled(activarBotones);
 		btnLike.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnLike);
 		
 		JButton btnComentar = new JButton("Comentar");
+		btnComentar.setEnabled(activarBotones);
 		btnComentar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnComentar);
 		
-		JButton btnRezweet = new JButton("Rezweet");
+		JButton btnRezweet = new JButton("Rezeta");
+		btnRezweet.setEnabled(activarBotones);
+
+		btnRezweet.addActionListener(e -> {
+			System.out.println("Rezeta");
+			contenedor.Rezetear(zeta);
+		});
 		btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnRezweet);
 		
-		JButton btnNewButton = new JButton("Perfil");
-		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2.add(btnNewButton);
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.setEnabled(activarBotones);
+		btnPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2.add(btnPerfil);
 	}
 	
 	
@@ -95,4 +118,6 @@ public class ZweetBasicView extends JPanel {
 
         return resultado.toString();
     }
+    
+    
 }

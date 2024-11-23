@@ -59,6 +59,9 @@ public class Usuario {
 		return z;
 	}
 	
+	public static Usuario placeholder() {
+		return new Usuario(0, "Admin", "Admin", "Admin", "Admin");
+	}
 	
 	
 	public int getId() {

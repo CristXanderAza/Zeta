@@ -9,10 +9,12 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 
+import UI.PublicacionesComponent.RezetaBasicView;
 import UI.PublicacionesComponent.ZetaImagenView;
 import UI.PublicacionesComponent.ZweetBasicView;
 import logica.Usuario;
 import logica.Zeta;
+import logica.Servicios.IZetasServicio;
 
 public class ZweetViewer extends JPanel {
 
@@ -20,7 +22,10 @@ public class ZweetViewer extends JPanel {
 
     private JPanel zweetsPanel;
     private List<Zeta> zetas;
+    private Usuario actualUsuario;
+	private IZetasServicio zetaServicio;
     private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin");
+    private Boolean activarBotones;
 
     /**
      * Create the panel.
@@ -28,7 +33,54 @@ public class ZweetViewer extends JPanel {
     public ZweetViewer() {
         // Establece el layout principal
     	zetas = new ArrayList<Zeta>();
+    	this.activarBotones = true;
     	agregarPlaceHolders();
+        initalize();
+    }
+    
+    public ZweetViewer(List<Zeta> zetas) {
+        // Establece el layout principal
+    	this.zetas = zetas;
+    	this.activarBotones = true;
+        initalize();
+    }
+    
+    public ZweetViewer(Zeta zeta, Boolean activarBotones) {
+        // Establece el layout principal
+    	zetas = new ArrayList<Zeta>();
+    	zetas.add(zeta);
+    	this.activarBotones = activarBotones;
+        initalize();
+    }
+    
+    public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio) {
+        // Establece el layout principal
+    	this.actualUsuario = actualUsuario;
+    	this.activarBotones = true;
+    	this.zetaServicio = zetaServicio;
+    	
+    	zetas = new ArrayList<Zeta>();
+    	agregarPlaceHolders();
+        initalize();
+    }
+    
+    public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio,List<Zeta> zetas) {
+        // Establece el layout principal
+       	this.actualUsuario = actualUsuario;
+       	this.activarBotones = true;
+    	this.zetaServicio = zetaServicio;
+    	
+    	this.zetas = zetas;
+        initalize();
+    }
+    
+    public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio, Zeta zeta) {
+        // Establece el layout principal
+       	this.actualUsuario = actualUsuario;
+    	this.zetaServicio = zetaServicio;
+    	this.activarBotones = true;
+    	zetas = new ArrayList<Zeta>();
+    	zetas.add(zeta);
         initalize();
     }
     
@@ -51,12 +103,24 @@ public class ZweetViewer extends JPanel {
     
     public void agregarZetasAlPanel() {
     	
-    	zweetsPanel.add(new ZetaImagenView());
+    	//zweetsPanel.add(new ZetaImagenView());
     	for(int i = zetas.size() - 1; i >= 0; i-- ) {
     		Zeta z = zetas.get(i);
     		//System.out.println(z.getBody());
-    		ZweetBasicView zv = new ZweetBasicView(z);
-    		zweetsPanel.add(zv);
+    		if(z.getParent() != null) {
+    			RezetaBasicView rzv = new RezetaBasicView(z, this, activarBotones);
+    			zweetsPanel.add(rzv);
+    		}
+    		else if(!z.getImageReference().isBlank()) {
+    			ZetaImagenView ziv = new ZetaImagenView(z, this, activarBotones);
+    			System.out.println("Imagen insertada");
+    			zweetsPanel.add(ziv);
+    		}
+    		else {
+        		ZweetBasicView zv = new ZweetBasicView(z, this, activarBotones);
+        		zweetsPanel.add(zv);
+    		}
+
     	}
     }
     
@@ -68,13 +132,16 @@ public class ZweetViewer extends JPanel {
         // Panel que contiene los tweets
         zweetsPanel = new JPanel();
         zweetsPanel.setLayout(new BoxLayout(zweetsPanel, BoxLayout.Y_AXIS)); // Cambia a BoxLayout para disposición vertical
-
+        
+        //agregarPlaceHolders();
+        agregarZetasAlPanel();
+        
         // Añade los componentes de tweets al panel
-        for (int i = 0; i < 10; i++) {
-            ZweetBasicView z = new ZweetBasicView();
+       /* for (int i = 0; i < 10; i++) {
+            ZweetBasicView z = new ZweetBasicView(this);
             zweetsPanel.add(z);
         }
-
+		*/
         // Crea el JScrollPane y añade el zweetsPanel
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -85,4 +152,11 @@ public class ZweetViewer extends JPanel {
         add(scrollPane);
         
     }
+    
+    public void Rezetear(Zeta z) {
+    	System.out.println("Rezeta 2");
+    	new RezetearWindow(z,zetaServicio, actualUsuario, this);
+    }
+    
+    
 }

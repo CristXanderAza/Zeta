@@ -19,8 +19,11 @@ import javax.swing.JLabel;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.Component;
 import java.awt.Font;
+import java.io.File;
 import java.util.Date;
 
 import javax.swing.border.BevelBorder;
@@ -39,11 +42,14 @@ public class HomePanel extends JPanel implements ChangeListener{
 	private Usuario actualUsuario;
 	private ZweetViewer zv;
 	private IZetasServicio zetaServicio;
+	private String imagenRuta;
+	private JButton btnImagen ;
 	
 	/**
 	 * Create the panel.
 	 */
 	public HomePanel(Usuario u, IZetasServicio zetaServicio ) {
+		imagenRuta = "";
 		setLayout(new BorderLayout(0, 0));
 		actualUsuario = u;
 		this.zetaServicio = zetaServicio;
@@ -238,20 +244,16 @@ public class HomePanel extends JPanel implements ChangeListener{
 		btnPublicar.setBounds(499, 18, 139, 103);
 		panel_6.add(btnPublicar);
 		
-		JButton btnNewButton_2_1 = new JButton("Imagen");
-		btnNewButton_2_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnNewButton_2_1.setBounds(14, 104, 92, 17);
-		panel_6.add(btnNewButton_2_1);
+		btnImagen = new JButton("Imagen");
+		btnImagen.addActionListener(e -> seleccionarImagen());
+		btnImagen.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnImagen.setBounds(14, 104, 92, 17);
+		panel_6.add(btnImagen);
 		
-		JButton btnNewButton_2_1_1 = new JButton("Hilo");
-		btnNewButton_2_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnNewButton_2_1_1.setBounds(105, 104, 92, 17);
-		panel_6.add(btnNewButton_2_1_1);
-		
-		JButton btnNewButton_2_1_1_1 = new JButton("Hilo");
-		btnNewButton_2_1_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnNewButton_2_1_1_1.setBounds(197, 104, 107, 17);
-		panel_6.add(btnNewButton_2_1_1_1);
+		JButton btnHilo = new JButton("Hilo");
+		btnHilo.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnHilo.setBounds(105, 104, 92, 17);
+		panel_6.add(btnHilo);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "JPanel title", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -266,7 +268,7 @@ public class HomePanel extends JPanel implements ChangeListener{
 		
 		JPanel panelZweetsView = new JPanel();
 		panelZweetsView.add(new ZweetViewer());
-		zv = new ZweetViewer();
+		zv = new ZweetViewer(actualUsuario, zetaServicio);
 		zv.setPreferredSize(new Dimension(20, 200));
 		panel_5.add(zv);
 
@@ -291,9 +293,68 @@ public class HomePanel extends JPanel implements ChangeListener{
 	}
 	
 	public void agregarZeta() {
-		ZetaInsertDTO dto = new ZetaInsertDTO(txtZeta.getText(), "",actualUsuario);
+		ZetaInsertDTO dto = new ZetaInsertDTO(txtZeta.getText(),(!imagenRuta.isBlank())? imagenRuta : "",actualUsuario);
 		Zeta z = zetaServicio.agregarZeta(dto);
 		zv.agregarZeta(z);
-		txtZeta.setText("");
+		txtZetaSetBlank();
+		quitarImagen();
 	}
+	
+	public void txtZetaSetBlank() {
+		txtZeta.setText("");
+		imagenRuta = "";
+	}
+	
+	public void quitarImagen() {
+		imagenRuta ="";
+		btnImagen.setForeground(Color.black);
+        btnImagen.setText("Imagen");
+	}
+	
+	public void Rezetear(Zeta z) {
+		//zv.agregarZeta(z);
+		new RezetearWindow(z, zetaServicio, actualUsuario, zv);
+	}
+	
+    public  void seleccionarImagen() {
+    	
+    	if(imagenRuta.isBlank())
+    	{
+            // Crear el JFileChooser
+            JFileChooser fileChooser = new JFileChooser();
+            
+            // Configurar un filtro para mostrar solo imágenes
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+                @Override
+                public boolean accept(File f) {
+                    // Mostrar directorios y archivos con extensiones válidas
+                    return f.isDirectory() || f.getName().toLowerCase().matches(".*\\.(png|jpg|jpeg|gif|bmp)$");
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Imágenes (*.png, *.jpg, *.jpeg, *.gif, *.bmp)";
+                }
+            });
+
+            // Mostrar el diálogo de selección
+            int resultado = fileChooser.showOpenDialog(null);
+            
+            // Verificar si se seleccionó un archivo
+            if (resultado == JFileChooser.APPROVE_OPTION) {
+                // Obtener la ruta del archivo seleccionado
+                File archivoSeleccionado = fileChooser.getSelectedFile();
+                imagenRuta =  archivoSeleccionado.getAbsolutePath();
+            } 
+            btnImagen.setForeground(Color.red);
+            btnImagen.setText("Quitar Imagen");
+    	}
+    	else {
+    		
+    		quitarImagen();            
+    	}
+    }
+
+	
+	
 }

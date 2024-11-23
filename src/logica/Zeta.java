@@ -26,6 +26,7 @@ public class Zeta {
 		this.body = body;
 		this.fechaPublicacion = fecha;
 		this.parent = parent;
+		this.imageReference ="";
 		
 	}
 	
@@ -35,6 +36,7 @@ public class Zeta {
 		this.body = body;
 		this.fechaPublicacion = fecha;
 		this.parent = null;
+		this.imageReference ="";
 		
 	}
 	
@@ -43,6 +45,7 @@ public class Zeta {
 		this.body = body;
 		this.fechaPublicacion = fecha;
 		this.parent = parent;
+		this.imageReference ="";
 	}
 	
 	public Zeta(Usuario usuario, String body, Date fecha) {
@@ -50,6 +53,7 @@ public class Zeta {
 		this.body = body;
 		this.fechaPublicacion = fecha;
 		this.parent = null;
+		this.imageReference ="";
 	}
 	
 	public LikeInteraccion darLike(Usuario u) {
@@ -67,6 +71,10 @@ public class Zeta {
 		Zeta z = new Zeta(u,body,d);
 		z.setParent(this);
 		return z;
+	}
+	
+	public static Zeta placeholder() {
+		return new Zeta(Usuario.placeholder(), "Lorem Ipsum", new Date());
 	}
 	
 	
