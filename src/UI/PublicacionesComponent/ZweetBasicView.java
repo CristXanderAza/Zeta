@@ -47,12 +47,12 @@ public class ZweetBasicView extends JPanel {
 		panel_1.setBorder(new TitledBorder(null, "@" + autor, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 		add(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-		panel_1.setPreferredSize(new Dimension(400, 100));
+		panel_1.setPreferredSize(new Dimension(400, 130));
 		
 		JPanel panel = new JPanel();
 		panel_1.add(panel);
 		
-		JLabel lblNewLabel = new JLabel("<html>"+body + "</html>");
+		JLabel lblNewLabel = new JLabel("<html>"+body.replace("\n", "<br/>") + "</html>");
 		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -74,9 +74,25 @@ public class ZweetBasicView extends JPanel {
 		btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnRezweet);
 		
-		JButton btnNewButton = new JButton("Quote");
+		JButton btnNewButton = new JButton("Perfil");
 		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnNewButton);
 	}
+	
+	
+    public static String insertarSaltoDeLinea(String texto, int longitud) {
+        // Usamos un StringBuilder para manipular el texto eficientemente
+        StringBuilder resultado = new StringBuilder(texto);
 
+        // Variable para mantener el índice donde insertar "<br/>"
+        int indice = longitud;
+
+        while (indice < resultado.length()) {
+            resultado.insert(indice, "<br/>");
+            // Ajustamos el índice al siguiente punto, considerando la longitud de "<br/>"
+            indice += longitud + "<br/>".length();
+        }
+
+        return resultado.toString();
+    }
 }

@@ -63,6 +63,11 @@ public class Zeta {
 		return r;
 	}
 	
+	public Zeta rezetear(Usuario u, String body, Date d) {
+		Zeta z = new Zeta(u,body,d);
+		z.setParent(this);
+		return z;
+	}
 	
 	
 	//Getters & Setters

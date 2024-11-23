@@ -11,6 +11,8 @@ public interface IZetasServicio {
 	
 	public Zeta agregarZeta(ZetaInsertDTO z);
 	
+	public Zeta rezetear(Zeta padre,ZetaInsertDTO dto);
+	
 	public Zeta getById(int id);
 	
 	public List<Zeta> getByUserInTimeLapse(Usuario u, Date inicio, Date finall);

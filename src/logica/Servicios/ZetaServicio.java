@@ -58,4 +58,13 @@ public class ZetaServicio implements IZetasServicio {
 		
 	}
 
+
+	@Override
+	public Zeta rezetear(Zeta padre, ZetaInsertDTO dto) {
+		// TODO Auto-generated method stub
+		Zeta z = padre.rezetear(dto.getUsuario(), dto.getBody(), new Date());
+		zetaRepository.agregarZeta(z);
+		return z;
+	}
+
 }

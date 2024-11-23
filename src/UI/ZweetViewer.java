@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 
+import UI.PublicacionesComponent.ZetaImagenView;
 import UI.PublicacionesComponent.ZweetBasicView;
 import logica.Usuario;
 import logica.Zeta;
@@ -49,8 +50,11 @@ public class ZweetViewer extends JPanel {
     }
     
     public void agregarZetasAlPanel() {
+    	
+    	zweetsPanel.add(new ZetaImagenView());
     	for(int i = zetas.size() - 1; i >= 0; i-- ) {
     		Zeta z = zetas.get(i);
+    		//System.out.println(z.getBody());
     		ZweetBasicView zv = new ZweetBasicView(z);
     		zweetsPanel.add(zv);
     	}
