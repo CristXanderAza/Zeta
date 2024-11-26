@@ -25,6 +25,7 @@ public class ZweetBasicView extends JPanel {
 	private Zeta zeta;
 	private ZweetViewer contenedor;
 	private Boolean activarBotones;
+	private JButton btnLike;
 
 	/**
 	 * Create the panel.
@@ -76,9 +77,13 @@ public class ZweetBasicView extends JPanel {
 		panel_1.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
 		
-		JButton btnLike = new JButton("Like");
+		btnLike = new JButton("Like: " + zeta.getLikesCantity());
 		btnLike.setEnabled(activarBotones);
 		btnLike.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnLike.addActionListener(e -> {
+			darLike();
+			
+		});
 		panel_2.add(btnLike);
 		
 		JButton btnComentar = new JButton("Comentar");
@@ -119,5 +124,21 @@ public class ZweetBasicView extends JPanel {
         return resultado.toString();
     }
     
+    private void darLike() {
+    	if(!zeta.getLikedByUser()) {
+    		contenedor.darLike(zeta);
+    		btnLike.setForeground(Color.blue);
+    		btnLike.setText("Like: " + zeta.getLikesCantity());
+    		System.out.println("Encendido");
+    		
+    	}
+    	else {
+    		contenedor.quitarLike(zeta);
+    		btnLike.setForeground(Color.black);
+    		btnLike.setText("Like: " + zeta.getLikesCantity());
+    		System.out.println("Apagado");
+    	}
+    	
+    }
     
 }

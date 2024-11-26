@@ -11,7 +11,7 @@ public class ZetaRepositoryFalso implements IZetasRepository {
 
 	
 	private List<Zeta> zetas;
-	private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin");
+	private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin", true);
 	
 	public ZetaRepositoryFalso() {
 		zetas = new ArrayList<Zeta>();

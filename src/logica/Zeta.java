@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +13,13 @@ public class Zeta {
 	protected Zeta parent;
 
 	protected String imageReference;
-
-	
+	protected int likesCantity;
 	protected List<Usuario> rezetas;
 	protected List<Usuario> likes;
 	protected List<Respuesta> respuestas;
+	private Boolean likedByUser;
 	
-	
-	
+
 	public Zeta(int id, Usuario usuario, String body, Date fecha, Zeta parent) {
 		this.id = id;
 		this.usuario = usuario;
@@ -27,7 +27,8 @@ public class Zeta {
 		this.fechaPublicacion = fecha;
 		this.parent = parent;
 		this.imageReference ="";
-		
+		this.likedByUser = false;
+		this.likes = new ArrayList<Usuario>();
 	}
 	
 	public Zeta(int id, Usuario usuario, String body, Date fecha) {
@@ -37,7 +38,8 @@ public class Zeta {
 		this.fechaPublicacion = fecha;
 		this.parent = null;
 		this.imageReference ="";
-		
+		this.likedByUser = false;
+		this.likes = new ArrayList<Usuario>();
 	}
 	
 	public Zeta( Usuario usuario, String body, Date fecha, Zeta parent) {
@@ -46,6 +48,8 @@ public class Zeta {
 		this.fechaPublicacion = fecha;
 		this.parent = parent;
 		this.imageReference ="";
+		this.likedByUser = false;
+		this.likes = new ArrayList<Usuario>();
 	}
 	
 	public Zeta(Usuario usuario, String body, Date fecha) {
@@ -54,11 +58,21 @@ public class Zeta {
 		this.fechaPublicacion = fecha;
 		this.parent = null;
 		this.imageReference ="";
+		this.likedByUser = false;
+		this.likes = new ArrayList<Usuario>();
 	}
 	
 	public LikeInteraccion darLike(Usuario u) {
 		likes.add(u);
+		likesCantity++;
+		likedByUser = true;
 		return new LikeInteraccion(this, u);
+	}
+	
+	public void quitarLike(Usuario u) {
+		likes.remove(u);
+		likesCantity-=1;
+		likedByUser = false;
 	}
 	
 	public Respuesta comentar(String Body, Usuario u) {
@@ -143,5 +157,22 @@ public class Zeta {
 
 	public void setRespuestas(List<Respuesta> respuestas) {
 		this.respuestas = respuestas;
+	}
+
+	
+	public int getLikesCantity() {
+		return likesCantity;
+	}
+
+	public void setLikesCantity(int likesCantity) {
+		this.likesCantity = likesCantity;
+	}
+
+	public Boolean getLikedByUser() {
+		return likedByUser;
+	}
+
+	public void setLikedByUser(Boolean likedByUser) {
+		this.likedByUser = likedByUser;
 	}
 }

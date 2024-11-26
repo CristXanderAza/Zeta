@@ -34,7 +34,7 @@ import javax.swing.border.SoftBevelBorder;
 
 public class Pantalla {
 
-	private JFrame frame;
+	private JFrame frmZeta;
 	private Usuario usuarioActual;
 	private IZetasServicio zetaServicio;
 
@@ -64,7 +64,7 @@ public class Pantalla {
 			public void run() {
 				try {
 					Pantalla window = new Pantalla();
-					window.frame.setVisible(true);
+					window.frmZeta.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,22 +81,24 @@ public class Pantalla {
 	
 	public Pantalla(Usuario u, IZetasServicio zs) {
 		this.usuarioActual = u;
+		Usuario.setActual(u);
 		this.zetaServicio = zs;
 		initialize(u);
-		frame.setVisible(true);
+		frmZeta.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(Usuario user) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1034, 509);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmZeta = new JFrame();
+		frmZeta.setTitle("Zeta");
+		frmZeta.setBounds(100, 100, 1034, 509);
+		frmZeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
-		frame.getContentPane().add(panel, BorderLayout.WEST);
+		frmZeta.getContentPane().add(panel, BorderLayout.WEST);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JLabel lblNewLabel = new JLabel("Zeta");
@@ -141,6 +143,6 @@ public class Pantalla {
 		
 		JPanel ActualView = new JPanel();
 		ActualView.add(new HomePanel(user, zetaServicio));
-		frame.getContentPane().add(new HomePanel(user,zetaServicio), BorderLayout.CENTER);
+		frmZeta.getContentPane().add(new HomePanel(user,zetaServicio), BorderLayout.CENTER);
 	}
 }

@@ -24,7 +24,7 @@ public class ZweetViewer extends JPanel {
     private List<Zeta> zetas;
     private Usuario actualUsuario;
 	private IZetasServicio zetaServicio;
-    private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin");
+    private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin", true);
     private Boolean activarBotones;
 
     /**
@@ -156,6 +156,14 @@ public class ZweetViewer extends JPanel {
     public void Rezetear(Zeta z) {
     	System.out.println("Rezeta 2");
     	new RezetearWindow(z,zetaServicio, actualUsuario, this);
+    }
+    
+    public void darLike(Zeta z) {
+    	zetaServicio.darLike(z, actualUsuario);
+    }
+    
+    public void quitarLike(Zeta z) {
+    	zetaServicio.quitarLike(z, actualUsuario);
     }
     
     

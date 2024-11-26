@@ -28,7 +28,7 @@ import javax.swing.BoxLayout;
 
 public class RezetearWindow {
 
-	private JFrame frame;
+	private JFrame frmRezetear;
 	private ZweetViewer zv;
 	private Zeta zetaARezetear;
 	private ZweetViewer root;
@@ -44,7 +44,7 @@ public class RezetearWindow {
 			public void run() {
 				try {
 					RezetearWindow window = new RezetearWindow();
-					window.frame.setVisible(true);
+					window.frmRezetear.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -67,7 +67,7 @@ public class RezetearWindow {
 		this.root = root;
 		this.usuarioActual = u;
 		initialize(zetaARezetear);
-		frame.setVisible(true);
+		frmRezetear.setVisible(true);
 	}
 	
 	public RezetearWindow(Zeta zetaARezetear, IZetasServicio zs, Usuario u) {
@@ -83,15 +83,16 @@ public class RezetearWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(Zeta z) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 675, 531);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		frmRezetear = new JFrame();
+		frmRezetear.setTitle("Rezetear");
+		frmRezetear.setBounds(100, 100, 675, 426);
+		frmRezetear.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmRezetear.getContentPane().setLayout(new BoxLayout(frmRezetear.getContentPane(), BoxLayout.Y_AXIS));
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setLayout(null);
 		panel_6.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		frame.getContentPane().add(panel_6);
+		frmRezetear.getContentPane().add(panel_6);
 		
 		txtZeta = new JTextArea();
 		txtZeta.setText("");
@@ -117,10 +118,10 @@ public class RezetearWindow {
 		panel_4.add(lblCaracteres);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
+		frmRezetear.getContentPane().add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		zv = new ZweetViewer(z, false);
-		zv.setPreferredSize(new Dimension(20, 200));
+		zv.setPreferredSize(new Dimension(20, 80));
 		panel.add(zv);
 		
 		txtZeta.getDocument().addDocumentListener(new DocumentListener() {
@@ -176,7 +177,7 @@ public class RezetearWindow {
 		{
 			root.agregarZeta(z);
 		}
-		frame.dispose();
+		frmRezetear.dispose();
 	}
 
 }

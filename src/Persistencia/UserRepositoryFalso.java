@@ -8,10 +8,10 @@ import logica.Usuario;
 
 public class UserRepositoryFalso implements IUserRepository{
 	
-    private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin");
+    private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin", true);
     private static List<Usuario> placeHolders = new ArrayList<>(Arrays.asList(
-    	    new Usuario(0, "Admin", "Admin", "Admin", "Admin"),
-    	    new Usuario(1, "Cristopher", "Aza", "Crist", "Prueba")
+    	    new Usuario(0, "Admin", "Admin", "Admin", "Admin", true),
+    	    new Usuario(1, "Cristopher", "Aza", "Crist", "Prueba", true)
     	));
     
 	@Override

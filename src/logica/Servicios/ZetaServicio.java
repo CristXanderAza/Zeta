@@ -37,6 +37,25 @@ public class ZetaServicio implements IZetasServicio {
 		}
 		return zt;
 	}
+	
+	/*Notas de Cristopher:
+	 * Para el repositorio de los Zetas es necesario tres metodos relacionados a Likes
+	 * -Uno para confirmar si el usuario actual le ha dado like
+	 * - otro para insertar el like por parte del usuario
+	 *  - y otro para quitar el like
+	 */
+	
+	
+	@Override
+	public void darLike(Zeta z, Usuario u) {
+		z.darLike(u);
+	}
+	
+	@Override
+	public void quitarLike(Zeta z, Usuario u) {
+		z.quitarLike(u);
+	}
+	
 	@Override
 	public List<Zeta> getByUserInTimeLapse(Usuario u, Date inicio, Date finall) {
 		// TODO Auto-generated method stub

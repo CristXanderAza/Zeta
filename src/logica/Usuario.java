@@ -9,19 +9,22 @@ import java.security.NoSuchAlgorithmException;
 public class Usuario {
 	
 	private int id;
-	private String nombre;
-	private String apellido;
+	private String nombreCuenta;
+	private String correo;
 	private String username;
 	private String contrasenia;
+	private Boolean verificado;
 	private List<Usuario> seguidos;
-	
-	public Usuario(int id, String nombre, String apellido, String username, String contrasenia) {
+	private static Usuario actual;
+
+	public Usuario(int id, String nombre, String correo, String username, String contrasenia, Boolean verificado) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
-		this.apellido = apellido;
+		this.nombreCuenta = nombre;
+		this.correo = correo;
 		this.username = username;
 		this.contrasenia = encriptar(contrasenia);
+		this.verificado = verificado;
 	}
 	
 	
@@ -60,9 +63,20 @@ public class Usuario {
 	}
 	
 	public static Usuario placeholder() {
-		return new Usuario(0, "Admin", "Admin", "Admin", "Admin");
+		return new Usuario(0, "Admin", "Admin", "Admin", "Admin", true);
 	}
 	
+	
+	public Boolean getVerificado() {
+		return verificado;
+	}
+
+
+	public void setVerificado(Boolean verificado) {
+		this.verificado = verificado;
+	}
+
+
 	
 	public int getId() {
 		return id;
@@ -73,19 +87,19 @@ public class Usuario {
 	}
 
 	public String getNombre() {
-		return nombre;
+		return nombreCuenta;
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.nombreCuenta = nombre;
 	}
 
-	public String getApellido() {
-		return apellido;
+	public String getCorreo() {
+		return correo;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setCorreo(String apellido) {
+		this.correo = apellido;
 	}
 
 	public String getUsername() {
@@ -111,6 +125,16 @@ public class Usuario {
 	public void setSeguidos(List<Usuario> seguidos) {
 		this.seguidos = seguidos;
 	}
+
+	public static Usuario getActual() {
+		return actual;
+	}
+
+
+	public static void setActual(Usuario actual) {
+		Usuario.actual = actual;
+	}
+
 
 	
 }
