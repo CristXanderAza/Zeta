@@ -11,8 +11,11 @@ public class Zeta {
 	protected String body;
 	protected Date fechaPublicacion;
 	protected Zeta parent;
-
+	protected Tema tema;
+	private int hiloID;
+	protected Hilo hilo;
 	protected String imageReference;
+	protected int imageID;
 	protected int likesCantity;
 	protected List<Usuario> rezetas;
 	protected List<Usuario> likes;
@@ -20,13 +23,15 @@ public class Zeta {
 	private Boolean likedByUser;
 	
 
-	public Zeta(int id, Usuario usuario, String body, Date fecha, Zeta parent) {
+	public Zeta(int id, Usuario usuario, String body, Date fecha,String image, int hiloID, Tema tema, Zeta parent, Boolean likedByUser) {
 		this.id = id;
 		this.usuario = usuario;
 		this.body = body;
 		this.fechaPublicacion = fecha;
+		this.tema = tema;
 		this.parent = parent;
-		this.imageReference ="";
+		this.hiloID = hiloID;
+		this.imageReference = image;
 		this.likedByUser = false;
 		this.likes = new ArrayList<Usuario>();
 	}
@@ -175,4 +180,37 @@ public class Zeta {
 	public void setLikedByUser(Boolean likedByUser) {
 		this.likedByUser = likedByUser;
 	}
+	
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
+	}
+	
+	public int getHiloID() {
+		return hiloID;
+	}
+
+	public void setHiloID(int hiloID) {
+		this.hiloID = hiloID;
+	}
+
+	public int getImageID() {
+		return imageID;
+	}
+
+	public void setImageID(int imageID) {
+		this.imageID = imageID;
+	}
+
+	public Hilo getHilo() {
+		return hilo;
+	}
+
+	public void setHilo(Hilo hilo) {
+		this.hilo = hilo;
+	}
+
 }

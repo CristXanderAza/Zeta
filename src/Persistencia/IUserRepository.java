@@ -9,6 +9,7 @@ public interface IUserRepository {
 	public void add(Usuario u);
 	
 	public Usuario getByUsername(String username);
+	public Usuario getByID(int id);
 	
 	public List<Usuario> getAll();
 	

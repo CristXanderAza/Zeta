@@ -33,8 +33,11 @@ public class ZetaServicio implements IZetasServicio {
 		// TODO Auto-generated method stub
 		Zeta zt = new Zeta(z.getUsuario(), z.getBody(), new Date());
 		if(!z.getImageReference().isBlank()) {
+			int imageID = zetaRepository.agregarImagen(z.getImageReference());
+			zt.setImageID(imageID);
 			zt.setImageReference(z.getImageReference());
 		}
+		zetaRepository.agregarZeta(zt);
 		return zt;
 	}
 	

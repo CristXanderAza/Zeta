@@ -45,4 +45,10 @@ public class UserRepositoryFalso implements IUserRepository{
 		
 	}
 
+	@Override
+	public Usuario getByID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

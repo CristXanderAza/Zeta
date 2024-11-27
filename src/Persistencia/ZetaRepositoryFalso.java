@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import logica.Tema;
 import logica.Usuario;
 import logica.Zeta;
 
@@ -52,6 +53,36 @@ public class ZetaRepositoryFalso implements IZetasRepository {
 
 	@Override
 	public void remove(Zeta z) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Zeta> obtenerPorHastag() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Zeta> obtenerPorTema(Tema t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Zeta> obtenerPorUsuario(Usuario u) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int agregarImagen(String rutaArchivo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void agregarZetaConImagen(Zeta z, int archivoID) {
 		// TODO Auto-generated method stub
 		
 	}
