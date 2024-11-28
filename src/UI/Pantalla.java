@@ -10,6 +10,8 @@ import java.awt.Font;
 import javax.swing.JSeparator;
 import javax.swing.JRadioButton;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+
 import java.awt.Component;
 import java.awt.Panel;
 import java.awt.List;
@@ -37,7 +39,8 @@ public class Pantalla {
 	private JFrame frmZeta;
 	private Usuario usuarioActual;
 	private IZetasServicio zetaServicio;
-
+	private JPanel ActualView;
+	private JPanel lastView;
 
 	/**
 	 * Launch the application.
@@ -114,35 +117,62 @@ public class Pantalla {
 		Panel panel_2 = new Panel();
 		panel_7.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
-		
+		ButtonGroup bgroup = new ButtonGroup();
 		JRadioButton rdbtnHome = new JRadioButton("Home");
+		rdbtnHome.addActionListener(e -> actualizarVista(new HomePanel(user, zetaServicio)));
+		bgroup.add(rdbtnHome);
 		rdbtnHome.setSelected(true);
 		rdbtnHome.setForeground(Color.WHITE);
 		rdbtnHome.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(rdbtnHome);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Explorar         .");
-		rdbtnNewRadioButton_1.setForeground(Color.WHITE);
-		rdbtnNewRadioButton_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2.add(rdbtnNewRadioButton_1);
+		JRadioButton rdbtnExplorar = new JRadioButton("Explorar         .");
+		rdbtnExplorar.addActionListener(e -> actualizarVista(new Explorer()));
+		bgroup.add(rdbtnExplorar);
+		rdbtnExplorar.setForeground(Color.WHITE);
+		rdbtnExplorar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2.add(rdbtnExplorar);
 		
-		JRadioButton rdbtnNewRadioButton_1_1 = new JRadioButton("Notificaciones");
-		rdbtnNewRadioButton_1_1.setForeground(Color.WHITE);
-		rdbtnNewRadioButton_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2.add(rdbtnNewRadioButton_1_1);
+		JRadioButton rdbtnNotif = new JRadioButton("Notificaciones");
+		bgroup.add(rdbtnNotif);
+		rdbtnNotif.setForeground(Color.WHITE);
+		rdbtnNotif.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2.add(rdbtnNotif);
 		
-		JRadioButton rdbtnNewRadioButton_1_2 = new JRadioButton("Mensajes");
-		rdbtnNewRadioButton_1_2.setForeground(Color.WHITE);
-		rdbtnNewRadioButton_1_2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2.add(rdbtnNewRadioButton_1_2);
+		JRadioButton rdbtnMensajes = new JRadioButton("Mensajes");
+		bgroup.add(rdbtnMensajes);
+		rdbtnMensajes.setForeground(Color.WHITE);
+		rdbtnMensajes.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2.add(rdbtnMensajes);
 		
-		JRadioButton rdbtnNewRadioButton_1_2_1 = new JRadioButton("Perfil");
-		rdbtnNewRadioButton_1_2_1.setForeground(Color.WHITE);
-		rdbtnNewRadioButton_1_2_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2.add(rdbtnNewRadioButton_1_2_1);
+		JRadioButton rdbtnPerfil = new JRadioButton("Perfil");
+		rdbtnPerfil.addActionListener(e -> actualizarVista(new Perfil()));
+		bgroup.add(rdbtnPerfil);
+		rdbtnPerfil.setForeground(Color.WHITE);
+		rdbtnPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2.add(rdbtnPerfil);
 		
-		JPanel ActualView = new JPanel();
-		ActualView.add(new HomePanel(user, zetaServicio));
-		frmZeta.getContentPane().add(new HomePanel(user,zetaServicio), BorderLayout.CENTER);
+		ActualView = new JPanel();
+		JPanel v = new HomePanel(user, zetaServicio);
+		//ActualView.add(v);
+		lastView = v;
+		actualizarVista(v); 
+	}
+	
+	private void actualizarVista(JPanel vw) {
+	    System.out.println("Cambio Vista");
+	    // Eliminar la última vista del contenedor
+	    frmZeta.getContentPane().remove(lastView);
+
+	    // Agregar la nueva vista en la posición CENTER
+	    frmZeta.getContentPane().add(vw, BorderLayout.CENTER);
+
+	    // Actualizar la referencia a la última vista
+	    lastView = vw;
+
+	    // Revalidar y repintar para actualizar la interfaz gráfica
+	    frmZeta.getContentPane().revalidate();
+	    frmZeta.getContentPane().repaint();
+	
 	}
 }
