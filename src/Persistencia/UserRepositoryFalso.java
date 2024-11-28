@@ -10,8 +10,8 @@ public class UserRepositoryFalso implements IUserRepository{
 	
     private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin", true);
     private static List<Usuario> placeHolders = new ArrayList<>(Arrays.asList(
-    	    new Usuario(0, "Admin", "Admin", "Admin", "Admin", true),
-    	    new Usuario(1, "Cristopher", "Aza", "Crist", "Prueba", true)
+    	    new Usuario(3, "Admin", "Admin", "Admin", "Admin", true),
+    	    new Usuario(4, "Cristopher", "Aza", "Crist", "Prueba", true)
     	));
     
 	@Override
@@ -48,6 +48,13 @@ public class UserRepositoryFalso implements IUserRepository{
 	@Override
 	public Usuario getByID(int id) {
 		// TODO Auto-generated method stub
+		for (Usuario usuario : placeHolders) {
+			if(usuario.getId() == id) {
+				return usuario;
+			}
+		}
+		
+		
 		return null;
 	}
 

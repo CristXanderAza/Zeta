@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import logica.LikeInteraccion;
 import logica.Tema;
 import logica.Usuario;
 import logica.Zeta;
@@ -83,6 +84,18 @@ public class ZetaRepositoryFalso implements IZetasRepository {
 
 	@Override
 	public void agregarZetaConImagen(Zeta z, int archivoID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void darLike(LikeInteraccion li) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void quitarLike(Usuario u, Zeta z) {
 		// TODO Auto-generated method stub
 		
 	}

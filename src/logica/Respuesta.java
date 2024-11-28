@@ -9,8 +9,9 @@ public class Respuesta extends Zeta{
 	
 	
 	public Respuesta(int id, Usuario usuario, String body, Date fecha,
-			Zeta zetaAContestar) {
-		super(id, usuario, body, fecha);
+			Zeta zetaAContestar, int likesCantity, Boolean likedByUser) {
+		//super(id, usuario, body, fecha);
+		super(id, usuario, body, fecha,null, 0, zetaAContestar.getTema(), null, likedByUser);
 		this.zetaAContestar = zetaAContestar;
 	}
 

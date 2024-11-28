@@ -2,6 +2,7 @@ package Persistencia;
 
 import java.util.List;
 
+import logica.LikeInteraccion;
 import logica.Tema;
 import logica.Usuario;
 import logica.Zeta;
@@ -27,5 +28,9 @@ public interface IZetasRepository {
 	public List<Zeta> obtenerPorUsuario(Usuario u);
 	
 	public int agregarImagen(String rutaArchivo);
+	
+	public void darLike(LikeInteraccion li);
+	
+	public void quitarLike(Usuario u, Zeta z);
 	
 }

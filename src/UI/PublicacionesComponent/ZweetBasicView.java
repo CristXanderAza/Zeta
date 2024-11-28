@@ -87,6 +87,7 @@ public class ZweetBasicView extends JPanel {
 		panel_2.add(btnLike);
 		
 		JButton btnComentar = new JButton("Comentar");
+		btnComentar.addActionListener(e -> responder());
 		btnComentar.setEnabled(activarBotones);
 		btnComentar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnComentar);
@@ -139,6 +140,10 @@ public class ZweetBasicView extends JPanel {
     		System.out.println("Apagado");
     	}
     	
+    }
+    
+    private void responder() {
+    	contenedor.Responder(zeta);
     }
     
 }

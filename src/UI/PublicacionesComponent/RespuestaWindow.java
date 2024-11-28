@@ -16,7 +16,8 @@ import javax.swing.border.TitledBorder;
 import UI.ZweetViewer;
 import logica.Usuario;
 import logica.Zeta;
-import logica.Servicios.IRespuestaServicio;
+
+import logica.Servicios.IRespuestasServicio;
 
 import javax.swing.JLabel;
 import javax.swing.border.SoftBevelBorder;
@@ -25,7 +26,8 @@ public class RespuestaWindow {
 
 	private JFrame frmResponder;
 	private ZweetViewer zv;
-	private IRespuestaServicio respuestaServicio;
+	private ZweetViewer zvr;
+	private IRespuestasServicio respuestaServicio;
 	private Usuario u;
 	private Zeta z;
 
@@ -67,6 +69,7 @@ public class RespuestaWindow {
 	public RespuestaWindow() {
 		z = Zeta.placeholder();
 		initialize();
+		frmResponder.setVisible(true);
 	}
 
 	/**
@@ -75,7 +78,7 @@ public class RespuestaWindow {
 	private void initialize() {
 		frmResponder = new JFrame();
 		frmResponder.setTitle("Responder");
-		frmResponder.setBounds(100, 100, 667, 585);
+		frmResponder.setBounds(100, 100, 667, 675);
 		frmResponder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmResponder.getContentPane().setLayout(new BoxLayout(frmResponder.getContentPane(), BoxLayout.Y_AXIS));
 		
@@ -123,7 +126,13 @@ public class RespuestaWindow {
 		lblCaracteres.setBounds(14, 18, 62, 16);
 		panel_4.add(lblCaracteres);
 		
+		
 		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
+		
+		zvr = new ZweetViewer(u, respuestaServicio);
+		zvr.setPreferredSize(new Dimension(20, 200));
+		panel_2.add(zvr);
 		panel_2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		frmResponder.getContentPane().add(panel_2);
 	}

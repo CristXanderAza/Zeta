@@ -9,11 +9,15 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 
+import UI.PublicacionesComponent.RespuestaWindow;
 import UI.PublicacionesComponent.RezetaBasicView;
 import UI.PublicacionesComponent.ZetaImagenView;
 import UI.PublicacionesComponent.ZweetBasicView;
+import logica.Respuesta;
 import logica.Usuario;
 import logica.Zeta;
+
+import logica.Servicios.IRespuestasServicio;
 import logica.Servicios.IZetasServicio;
 
 public class ZweetViewer extends JPanel {
@@ -24,6 +28,7 @@ public class ZweetViewer extends JPanel {
     private List<Zeta> zetas;
     private Usuario actualUsuario;
 	private IZetasServicio zetaServicio;
+	private IRespuestasServicio respuestaServicio;
     private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin", true);
     private Boolean activarBotones;
 
@@ -40,7 +45,7 @@ public class ZweetViewer extends JPanel {
     
     public ZweetViewer(List<Zeta> zetas) {
         // Establece el layout principal
-    	this.zetas = zetas;
+    	this.zetas = zetas; 
     	this.activarBotones = true;
         initalize();
     }
@@ -73,6 +78,29 @@ public class ZweetViewer extends JPanel {
     	this.zetas = zetas;
         initalize();
     }
+    
+    
+    public ZweetViewer(Usuario actualUsuario, IRespuestasServicio respServ) {
+        // Establece el layout principal
+    	this.actualUsuario = actualUsuario;
+    	this.activarBotones = true;
+    	this.respuestaServicio = respServ;
+    	
+    	zetas = new ArrayList<Zeta>();
+    	agregarPlaceHolders();
+        initalize();
+    }
+    
+    public ZweetViewer(Usuario actualUsuario, IRespuestasServicio respServ,List<Zeta> zetas) {
+        // Establece el layout principal
+       	this.actualUsuario = actualUsuario;
+       	this.activarBotones = true;
+       	this.respuestaServicio = respServ;
+    	
+    	this.zetas = zetas;
+        initalize();
+    }
+    
     
     public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio, Zeta zeta) {
         // Establece el layout principal
@@ -162,9 +190,21 @@ public class ZweetViewer extends JPanel {
     	zetaServicio.darLike(z, actualUsuario);
     }
     
+    public void darLikeResp(Respuesta r) {
+    	respuestaServicio.darLike(r, actualUsuario);
+    }
+    
     public void quitarLike(Zeta z) {
     	zetaServicio.quitarLike(z, actualUsuario);
     }
     
+    public void quitarLikeResp(Respuesta z) {
+    	respuestaServicio.quitarLike(z, actualUsuario);
+    }
+    
+    public void Responder(Zeta z) {
+    	RespuestaWindow rw = new RespuestaWindow();
+    	
+    }
     
 }

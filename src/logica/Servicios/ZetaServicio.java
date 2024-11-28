@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import Persistencia.IZetasRepository;
+import logica.LikeInteraccion;
 import logica.Usuario;
 import logica.Zeta;
 import logica.ZetaInsertDTO;
@@ -51,12 +52,14 @@ public class ZetaServicio implements IZetasServicio {
 	
 	@Override
 	public void darLike(Zeta z, Usuario u) {
-		z.darLike(u);
+		LikeInteraccion li= z.darLike(u);
+		zetaRepository.darLike(li);
 	}
 	
 	@Override
 	public void quitarLike(Zeta z, Usuario u) {
 		z.quitarLike(u);
+		zetaRepository.quitarLike(u, z);
 	}
 	
 	@Override
