@@ -111,6 +111,7 @@ public class RespuestaWindow {
 		panel_6.add(btnResponder);
 		
 		JButton btnImagen = new JButton("Imagen");
+		btnImagen.setEnabled(false);
 		btnImagen.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		btnImagen.setBounds(14, 95, 92, 17);
 		panel_6.add(btnImagen);
