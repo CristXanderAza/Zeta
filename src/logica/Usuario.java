@@ -17,13 +17,21 @@ public class Usuario {
 	private List<Usuario> seguidos;
 	private static Usuario actual;
 
+	public Usuario( String nombre, String correo, String username, String contrasenia) {
+		super();
+		this.nombreCuenta = nombre;
+		this.correo = correo;
+		this.username = username;
+		this.contrasenia = encriptar(contrasenia);
+	}
+	
 	public Usuario(int id, String nombre, String correo, String username, String contrasenia, Boolean verificado) {
 		super();
 		this.id = id;
 		this.nombreCuenta = nombre;
 		this.correo = correo;
 		this.username = username;
-		this.contrasenia = encriptar(contrasenia);
+		this.contrasenia = contrasenia;
 		this.verificado = verificado;
 	}
 	

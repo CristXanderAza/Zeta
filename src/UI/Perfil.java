@@ -68,12 +68,12 @@ public class Perfil extends JPanel {
 		lblNewLabelSeguidores.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		panel_9.add(lblNewLabelSeguidores);
 
-		ScrollPerfil scrollPerfil = new ScrollPerfil();
+		ZweetViewer zweetViewer = new ZweetViewer();
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_4.add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
-		panel_2.add(scrollPerfil);
+		panel_2.add(zweetViewer);
 
 		panel_2.setPreferredSize(new Dimension(400, panel_2.getPreferredSize().height));
 
