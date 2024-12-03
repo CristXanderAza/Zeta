@@ -97,7 +97,7 @@ public class RespuestaWindow {
 		frmResponder = new JFrame();
 		frmResponder.setTitle("Responder");
 		frmResponder.setBounds(100, 100, 667, 675);
-		frmResponder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmResponder.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmResponder.getContentPane().setLayout(new BoxLayout(frmResponder.getContentPane(), BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();

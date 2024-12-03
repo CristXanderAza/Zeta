@@ -269,21 +269,212 @@ public class ZetaRepository implements IZetasRepository{
 	}
 
 	@Override
-	public List<Zeta> obtenerPorHastag() {
+	public List<Zeta> obtenerPorHastag(int idHastag) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Zeta> res = new ArrayList<Zeta>();
+	    String query = "SELECT z.id_zeta, z.id_cuenta, z.id_tema, z.contenido, z.fecha_creacion, "
+                + "z.zeta_padre, z.hilo_zeta, a.ruta_archivo AS imageReference, z.likes, "
+                + "EXISTS ("
+                + "    SELECT 1 "
+                + "    FROM likes_zeta l "
+                + "    WHERE l.id_zeta = z.id_zeta AND l.id_cuenta = ?"
+                + ") AS likedByUser "
+                + "FROM zetas z "
+                + "Inner join hashtags_zetas h on h.id_zeta = z.id_zeta"
+                + "LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
+                + "Where h.id_hashtag = ?"
+                ;
+
+   try (Connection conn = DBConnection.getConnection(); // Obtener conexión a la base de datos
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+       // Usuario actual
+       Usuario actual = Usuario.getActual();
+       if (actual == null) {
+           throw new IllegalStateException("No hay un usuario actual autenticado.");
+       }
+
+       stmt.setInt(1, actual.getId());
+       stmt.setInt(2, idHastag);// Parámetro para la subconsulta de likedByUser
+                  // Parámetro para el id del Zeta
+
+       try (ResultSet rs = stmt.executeQuery()) {
+    	   while  (rs.next()) {
+               // Obtener datos desde el ResultSet
+               int zetaId = rs.getInt("id_zeta");
+               int idUsuario = rs.getInt("id_cuenta");
+               int idTema = rs.getInt("id_tema");
+               String body = rs.getString("contenido");
+               Date fecha = rs.getTimestamp("fecha_creacion");
+               int hiloID = rs.getInt("hilo_zeta");
+               String imageReference = rs.getString("imageReference"); // Puede ser null
+               int likesCantity = rs.getInt("likes");
+               boolean likedByUser = (rs.getInt("likedByUser") == 1);
+
+               // Obtener el usuario desde el repositorio de usuarios
+               Usuario usuario = usuarioRepo.getByID(idUsuario);
+
+               // Obtener el tema desde el repositorio de temas
+               Tema tema = temaRepo.obtenerTemaPorId(idTema);
+
+               // Obtener Zeta padre (si existe)
+               Zeta parent = null;
+               int zetaPadreId = rs.getInt("zeta_padre");
+               if (!rs.wasNull()) {
+                   parent = getById(zetaPadreId); // Llamada recursiva
+               }
+
+               // Crear y retornar la instancia de Zeta
+               Zeta z = new Zeta(zetaId, usuario, body, fecha, (imageReference != null)? imageReference: "", hiloID, tema, parent, likedByUser);
+               System.out.println(z.getBody());
+               z.setLikesCantity(likesCantity);
+               
+               res.add(z);
+           }
+        }
+	   } catch (SQLException e) {
+		   System.out.println(e.getMessage());
+	       e.printStackTrace();
+	   }
+   		return res; 
 	}
 
 	@Override
 	public List<Zeta> obtenerPorTema(Tema t) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Zeta> res = new ArrayList<Zeta>();
+	    String query = "SELECT z.id_zeta, z.id_cuenta, z.id_tema, z.contenido, z.fecha_creacion, "
+                + "z.zeta_padre, z.hilo_zeta, a.ruta_archivo AS imageReference, z.likes, "
+                + "EXISTS ("
+                + "    SELECT 1 "
+                + "    FROM likes_zeta l "
+                + "    WHERE l.id_zeta = z.id_zeta AND l.id_cuenta = ?"
+                + ") AS likedByUser "
+                + "FROM zetas z "
+                + "LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
+                + "Where z.id_tema = ?"
+                ;
+
+   try (Connection conn = DBConnection.getConnection(); // Obtener conexión a la base de datos
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+       // Usuario actual
+       Usuario actual = Usuario.getActual();
+       if (actual == null) {
+           throw new IllegalStateException("No hay un usuario actual autenticado.");
+       }
+
+       stmt.setInt(1, actual.getId());
+       stmt.setInt(2, t.getTemaID());// Parámetro para la subconsulta de likedByUser
+                  // Parámetro para el id del Zeta
+
+       try (ResultSet rs = stmt.executeQuery()) {
+    	   while  (rs.next()) {
+               // Obtener datos desde el ResultSet
+               int zetaId = rs.getInt("id_zeta");
+               int idUsuario = rs.getInt("id_cuenta");
+               int idTema = rs.getInt("id_tema");
+               String body = rs.getString("contenido");
+               Date fecha = rs.getTimestamp("fecha_creacion");
+               int hiloID = rs.getInt("hilo_zeta");
+               String imageReference = rs.getString("imageReference"); // Puede ser null
+               int likesCantity = rs.getInt("likes");
+               boolean likedByUser = (rs.getInt("likedByUser") == 1);
+
+               // Obtener el usuario desde el repositorio de usuarios
+               Usuario usuario = usuarioRepo.getByID(idUsuario);
+
+               // Obtener el tema desde el repositorio de temas
+               Tema tema = t;
+
+               // Obtener Zeta padre (si existe)
+               Zeta parent = null;
+               int zetaPadreId = rs.getInt("zeta_padre");
+               if (!rs.wasNull()) {
+                   parent = getById(zetaPadreId); // Llamada recursiva
+               }
+
+               // Crear y retornar la instancia de Zeta
+               Zeta z = new Zeta(zetaId, usuario, body, fecha, (imageReference != null)? imageReference: "", hiloID, tema, parent, likedByUser);
+               System.out.println(z.getBody());
+               z.setLikesCantity(likesCantity);
+               
+               res.add(z);
+           }
+        }
+	   } catch (SQLException e) {
+		   System.out.println(e.getMessage());
+	       e.printStackTrace();
+	   }
+   		return res; 
 	}
 
 	@Override
 	public List<Zeta> obtenerPorUsuario(Usuario u) {
 		// TODO Auto-generated method stub
-		return null;
+		// TODO Auto-generated method stub
+		List<Zeta> res = new ArrayList<Zeta>();
+	    String query = "SELECT z.id_zeta, z.id_cuenta, z.id_tema, z.contenido, z.fecha_creacion, "
+                + "z.zeta_padre, z.hilo_zeta, a.ruta_archivo AS imageReference, z.likes, "
+                + "EXISTS ("
+                + "    SELECT 1 "
+                + "    FROM likes_zeta l "
+                + "    WHERE l.id_zeta = z.id_zeta AND l.id_cuenta = ?"
+                + ") AS likedByUser "
+                + "FROM zetas z "
+                + "LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
+                + "Where z.id_cuenta = ?"
+                ;
+
+   try (Connection conn = DBConnection.getConnection(); // Obtener conexión a la base de datos
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+       // Usuario actual
+       Usuario actual = Usuario.getActual();
+       if (actual == null) {
+           throw new IllegalStateException("No hay un usuario actual autenticado.");
+       }
+
+       stmt.setInt(1, actual.getId());
+       stmt.setInt(2, u.getId());// Parámetro para la subconsulta de likedByUser
+                  // Parámetro para el id del Zeta
+
+       try (ResultSet rs = stmt.executeQuery()) {
+    	   while  (rs.next()) {
+               // Obtener datos desde el ResultSet
+               int zetaId = rs.getInt("id_zeta");
+               int idUsuario = rs.getInt("id_cuenta");
+               int idTema = rs.getInt("id_tema");
+               String body = rs.getString("contenido");
+               Date fecha = rs.getTimestamp("fecha_creacion");
+               int hiloID = rs.getInt("hilo_zeta");
+               String imageReference = rs.getString("imageReference"); // Puede ser null
+               int likesCantity = rs.getInt("likes");
+               boolean likedByUser = (rs.getInt("likedByUser") == 1);
+
+               // Obtener el usuario desde el repositorio de usuarios
+               Usuario usuario = usuarioRepo.getByID(idUsuario);
+
+               // Obtener el tema desde el repositorio de temas
+               Tema tema = temaRepo.obtenerTemaPorId(idTema);
+
+               // Obtener Zeta padre (si existe)
+               Zeta parent = null;
+               int zetaPadreId = rs.getInt("zeta_padre");
+               if (!rs.wasNull()) {
+                   parent = getById(zetaPadreId); // Llamada recursiva
+               }
+
+               // Crear y retornar la instancia de Zeta
+               Zeta z = new Zeta(zetaId, usuario, body, fecha, (imageReference != null)? imageReference: "", hiloID, tema, parent, likedByUser);
+               System.out.println(z.getBody());
+               z.setLikesCantity(likesCantity);
+               
+               res.add(z);
+           }
+        }
+	   } catch (SQLException e) {
+		   System.out.println(e.getMessage());
+	       e.printStackTrace();
+	   }
+   		return res; 
 	}
 
 	@Override

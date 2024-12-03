@@ -21,7 +21,7 @@ public interface IZetasRepository {
 	
 	public void remove(Zeta z);
 	
-	public List<Zeta> obtenerPorHastag();
+	public List<Zeta> obtenerPorHastag(int hashtagId);
 	
 	public List<Zeta> obtenerPorTema(Tema t);
 	

@@ -58,11 +58,7 @@ public class ZetaRepositoryFalso implements IZetasRepository {
 		
 	}
 
-	@Override
-	public List<Zeta> obtenerPorHastag() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public List<Zeta> obtenerPorTema(Tema t) {
@@ -98,6 +94,12 @@ public class ZetaRepositoryFalso implements IZetasRepository {
 	public void quitarLike(Usuario u, Zeta z) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Zeta> obtenerPorHastag(int hashtagId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
