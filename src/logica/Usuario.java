@@ -60,6 +60,10 @@ public class Usuario {
 	        }
 	}	
 	
+	public static void main(String[] args) {
+		String s = "Admin";
+		System.out.println(encriptar(s));
+	}
 	
 	public Boolean autenticar(String noEncripatadaContrasenia) {
 		return (encriptar(noEncripatadaContrasenia).equals(this.contrasenia));

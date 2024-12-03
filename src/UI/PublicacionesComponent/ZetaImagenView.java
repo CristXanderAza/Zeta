@@ -108,7 +108,7 @@ public class ZetaImagenView extends JPanel {
         Image image = icon.getImage(); // Obtener el objeto Image
         Image scaledImage = image.getScaledInstance(700, 300, Image.SCALE_SMOOTH); // Escalar
         ImageIcon scaledIcon = new ImageIcon(scaledImage); 
-        return scaledIcon;
+        return icon;
 	}
 
 }

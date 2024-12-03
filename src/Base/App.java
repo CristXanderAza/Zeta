@@ -2,24 +2,39 @@ package Base;
 
 import javax.swing.UIManager;
 
+import Persistencia.IRespuestaRepository;
+import Persistencia.ITemaRepository;
 import Persistencia.IUserRepository;
 import Persistencia.IZetasRepository;
+import Persistencia.LikeComentsRepository;
+import Persistencia.LikeZetaRepository;
+import Persistencia.RespuestaRepository;
+import Persistencia.TemaRepository;
+import Persistencia.UserRepository;
 import Persistencia.UserRepositoryFalso;
+import Persistencia.ZetaRepository;
 import Persistencia.ZetaRepositoryFalso;
 import UI.Login;
 import UI.Pantalla;
 import logica.Usuario;
+import logica.Servicios.IRespuestasServicio;
 import logica.Servicios.IUserServicio;
 import logica.Servicios.IZetasServicio;
+import logica.Servicios.RespuestaServicio;
 import logica.Servicios.UserSevicio;
 import logica.Servicios.ZetaServicio;
 
 public class App {
 	
 	private static IUserRepository userRepository;
+	private static IRespuestaRepository respuestaRespository;
 	private static IUserServicio userServicio;
+	private static ITemaRepository temaRepository;
 	private static IZetasRepository zetaRepository;
+	private static IRespuestasServicio respuestaServicio;
+	private static LikeComentsRepository likeRespuestasRepo;
 	private static IZetasServicio zetaServicio;
+	private static LikeZetaRepository likeZetaRepo;
 	private static Login login;
 	private static Pantalla pantalla;
 	
@@ -46,16 +61,21 @@ public class App {
     
     
     private static void iniciarDependencias() {
-    	userRepository = new UserRepositoryFalso();
-    	zetaRepository = new ZetaRepositoryFalso();
+    	userRepository = new UserRepository();
+    	temaRepository = new TemaRepository();
+    	likeZetaRepo = new LikeZetaRepository();
+    	zetaRepository = new ZetaRepository(userRepository, temaRepository);
+    	respuestaRespository = new RespuestaRepository(userRepository,zetaRepository );
+    	likeRespuestasRepo = new LikeComentsRepository();
     	
     	userServicio = new UserSevicio(userRepository);
-    	zetaServicio = new ZetaServicio(zetaRepository);
+    	zetaServicio = new ZetaServicio(zetaRepository, likeZetaRepo);
+    	respuestaServicio = new RespuestaServicio(respuestaRespository, likeRespuestasRepo);
     }
     
     public static void iniciarSesion(Usuario u) {
     	login.dispose();
-    	pantalla = new Pantalla(u, zetaServicio);
+    	pantalla = new Pantalla(u, zetaServicio, temaRepository, respuestaServicio);
     }
 	
 	

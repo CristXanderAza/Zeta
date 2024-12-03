@@ -27,6 +27,10 @@ public class Tema {
 		Nombre = nombre;
 	}
 
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.Nombre;
+	}
 	
 }

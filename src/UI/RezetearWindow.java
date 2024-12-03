@@ -172,7 +172,7 @@ public class RezetearWindow {
 	private void Rezetear() {
 		String body = txtZeta.getText();
 		Date d = new Date();
-		Zeta z = zetaServicio.rezetear(zetaARezetear, new ZetaInsertDTO(body,"", usuarioActual));
+		Zeta z = zetaServicio.rezetear(zetaARezetear, new ZetaInsertDTO(body,"", usuarioActual, zetaARezetear.getTema()));
 		if(root != null)
 		{
 			root.agregarZeta(z);

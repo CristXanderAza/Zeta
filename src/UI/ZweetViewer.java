@@ -69,12 +69,12 @@ public class ZweetViewer extends JPanel {
         initalize();
     }
     
-    public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio,List<Zeta> zetas) {
+    public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio,List<Zeta> zetas, IRespuestasServicio respuestaServicio) {
         // Establece el layout principal
        	this.actualUsuario = actualUsuario;
        	this.activarBotones = true;
     	this.zetaServicio = zetaServicio;
-    	
+    	this.respuestaServicio = respuestaServicio;
     	this.zetas = zetas;
         initalize();
     }
@@ -100,6 +100,7 @@ public class ZweetViewer extends JPanel {
     	this.zetas = zetas;
         initalize();
     }
+
     
     
     public ZweetViewer(Usuario actualUsuario, IZetasServicio zetaServicio, Zeta zeta) {
@@ -203,7 +204,7 @@ public class ZweetViewer extends JPanel {
     }
     
     public void Responder(Zeta z) {
-    	RespuestaWindow rw = new RespuestaWindow();
+    	RespuestaWindow rw = new RespuestaWindow(z,respuestaServicio);
     	
     }
     

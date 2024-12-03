@@ -10,8 +10,8 @@ public class UserRepositoryFalso implements IUserRepository{
 	
     private static Usuario placeHolder = new Usuario(0, "Admin", "Admin",  "Admin",  "Admin", true);
     private static List<Usuario> placeHolders = new ArrayList<>(Arrays.asList(
-    	    new Usuario(3, "Admin", "Admin", "Admin", "Admin", true),
-    	    new Usuario(4, "Cristopher", "Aza", "Crist", "Prueba", true)
+    	    new Usuario(3, "Admin", "Admin", "Admin", Usuario.encriptar("Admin"), true),
+    	    new Usuario(4, "Cristopher", "Aza", "Crist", Usuario.encriptar("Prueba"), true)
     	));
     
 	@Override

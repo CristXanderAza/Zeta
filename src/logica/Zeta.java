@@ -32,7 +32,7 @@ public class Zeta {
 		this.parent = parent;
 		this.hiloID = hiloID;
 		this.imageReference = image;
-		this.likedByUser = false;
+		this.likedByUser = likedByUser;
 		this.likes = new ArrayList<Usuario>();
 	}
 	
@@ -88,6 +88,7 @@ public class Zeta {
 	
 	public Zeta rezetear(Usuario u, String body, Date d) {
 		Zeta z = new Zeta(u,body,d);
+		z.setTema(this.tema);
 		z.setParent(this);
 		return z;
 	}

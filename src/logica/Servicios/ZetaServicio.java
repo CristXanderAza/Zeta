@@ -3,6 +3,7 @@ package logica.Servicios;
 import java.util.Date;
 import java.util.List;
 
+import Persistencia.ILikeRepository;
 import Persistencia.IZetasRepository;
 import logica.LikeInteraccion;
 import logica.Usuario;
@@ -12,9 +13,11 @@ import logica.ZetaInsertDTO;
 public class ZetaServicio implements IZetasServicio {
 
 	private IZetasRepository zetaRepository;
+	private ILikeRepository likeReposiory;
 	
-	public ZetaServicio(IZetasRepository zRepo) {
+	public ZetaServicio(IZetasRepository zRepo, ILikeRepository like) {
 		zetaRepository = zRepo;
+		likeReposiory = like;
 	}
 
 
@@ -33,6 +36,7 @@ public class ZetaServicio implements IZetasServicio {
 	public Zeta agregarZeta(ZetaInsertDTO z) {
 		// TODO Auto-generated method stub
 		Zeta zt = new Zeta(z.getUsuario(), z.getBody(), new Date());
+		zt.setTema(z.getTema());
 		if(!z.getImageReference().isBlank()) {
 			int imageID = zetaRepository.agregarImagen(z.getImageReference());
 			zt.setImageID(imageID);
@@ -53,12 +57,15 @@ public class ZetaServicio implements IZetasServicio {
 	@Override
 	public void darLike(Zeta z, Usuario u) {
 		LikeInteraccion li= z.darLike(u);
+		likeReposiory.AddLike(u.getId(), z.getId());
 		zetaRepository.darLike(li);
 	}
 	
 	@Override
 	public void quitarLike(Zeta z, Usuario u) {
 		z.quitarLike(u);
+		likeReposiory.DeleteLike(u.getId(), z.getId());
+		System.out.println("Se quito un like");
 		zetaRepository.quitarLike(u, z);
 	}
 	

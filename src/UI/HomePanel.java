@@ -8,9 +8,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import Persistencia.ITemaRepository;
+import logica.Tema;
 import logica.Usuario;
 import logica.Zeta;
 import logica.ZetaInsertDTO;
+import logica.Servicios.IRespuestasServicio;
 import logica.Servicios.IZetasServicio;
 
 import javax.swing.border.EtchedBorder;
@@ -25,6 +28,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JTextArea;
@@ -32,6 +36,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.JScrollPane;
 import java.awt.Container;
 import java.awt.Dimension;
+import javax.swing.JComboBox;
 
 public class HomePanel extends JPanel implements ChangeListener{
 
@@ -41,18 +46,23 @@ public class HomePanel extends JPanel implements ChangeListener{
 	private JButton btnPublicar;
 	private Usuario actualUsuario;
 	private ZweetViewer zv;
+	private JComboBox<Tema> cmbTema;
+	private ITemaRepository temaRepositorio;
 	private IZetasServicio zetaServicio;
+	private IRespuestasServicio respuestaServicio;
 	private String imagenRuta;
 	private JButton btnImagen ;
 	
 	/**
 	 * Create the panel.
 	 */
-	public HomePanel(Usuario u, IZetasServicio zetaServicio ) {
+	public HomePanel(Usuario u, IZetasServicio zetaServicio, ITemaRepository temaRepo, IRespuestasServicio respuestaServicio ) {
 		imagenRuta = "";
 		setLayout(new BorderLayout(0, 0));
 		actualUsuario = u;
 		this.zetaServicio = zetaServicio;
+		this.temaRepositorio = temaRepo;
+		this.respuestaServicio =  respuestaServicio;
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.EAST);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -266,9 +276,17 @@ public class HomePanel extends JPanel implements ChangeListener{
 		panel_4.add(lblCaracteres);
 		lblCaracteres.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		
+		 cmbTema = new JComboBox<Tema>();
+		List<Tema> temas = temaRepositorio.obtenerTodosLosTemas();
+		for (Tema tema : temas) {
+			cmbTema.addItem(tema);
+		}
+		cmbTema.setBounds(203, 104, 108, 21);
+		panel_6.add(cmbTema);
+		
 		JPanel panelZweetsView = new JPanel();
 		panelZweetsView.add(new ZweetViewer());
-		zv = new ZweetViewer(actualUsuario, zetaServicio);
+		zv = new ZweetViewer(actualUsuario, zetaServicio, zetaServicio.getAll(), respuestaServicio);
 		zv.setPreferredSize(new Dimension(20, 200));
 		panel_5.add(zv);
 
@@ -293,7 +311,7 @@ public class HomePanel extends JPanel implements ChangeListener{
 	}
 	
 	public void agregarZeta() {
-		ZetaInsertDTO dto = new ZetaInsertDTO(txtZeta.getText(),(!imagenRuta.isBlank())? imagenRuta : "",actualUsuario);
+		ZetaInsertDTO dto = new ZetaInsertDTO(txtZeta.getText(),(!imagenRuta.isBlank())? imagenRuta : "",actualUsuario, (Tema) cmbTema.getSelectedItem());
 		Zeta z = zetaServicio.agregarZeta(dto);
 		zv.agregarZeta(z);
 		txtZetaSetBlank();
@@ -354,7 +372,4 @@ public class HomePanel extends JPanel implements ChangeListener{
     		quitarImagen();            
     	}
     }
-
-	
-	
 }

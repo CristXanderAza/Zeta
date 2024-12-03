@@ -16,6 +16,7 @@ public class UserSevicio implements IUserServicio{
 	public Usuario iniciarSesion(String userName, String contrasenia) {
 		// TODO Auto-generated method stub
 		Usuario u = repo.getByUsername(userName);		
+		System.out.println("Nombre Usuario, encontrado: " + u.getNombre() + u.getContrasenia());
 		return (u.autenticar(contrasenia))? u: null;
 	}
 

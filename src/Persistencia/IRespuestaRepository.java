@@ -11,7 +11,7 @@ public interface IRespuestaRepository {
 	
 	public void agregarRespuesta(Respuesta r);
 	
-	public List<Respuesta> obtenerRespuestasDeZeta(int zetaId);
+	public List<Respuesta> obtenerRespuestasDeZeta(Zeta z);
 	
 	public Respuesta obtenerRespuestaPorId(int respId);
 	

@@ -4,12 +4,14 @@ public class ZetaInsertDTO {
 
 	private String body;
 	private String imageReference;
+	private Tema tema;
 	private Usuario usuario;
 	
-	public ZetaInsertDTO(String body, String imageReference, Usuario usuario) {
+	public ZetaInsertDTO(String body, String imageReference, Usuario usuario, Tema t) {
 		super();
 		this.body = body;
 		this.imageReference = imageReference;
+		this.tema = t;
 		this.usuario = usuario;
 	}
 	
@@ -36,4 +38,12 @@ public class ZetaInsertDTO {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
+	}
+
 }

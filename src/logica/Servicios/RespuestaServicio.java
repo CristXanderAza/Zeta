@@ -3,6 +3,7 @@ package logica.Servicios;
 import java.util.Date;
 import java.util.List;
 
+import Persistencia.ILikeRepository;
 import Persistencia.IRespuestaRepository;
 import logica.LikeInteraccion;
 import logica.Respuesta;
@@ -12,7 +13,16 @@ import logica.ZetaInsertDTO;
 
 public class RespuestaServicio implements IRespuestasServicio {
 	
+
 	private IRespuestaRepository respuestaRepo;
+	private ILikeRepository likeRespRepo;
+
+	
+	public RespuestaServicio(IRespuestaRepository respuestaRepo, ILikeRepository likeRespRepo) {
+		super();
+		this.respuestaRepo = respuestaRepo;
+		this.likeRespRepo = likeRespRepo;
+	}
 
 	@Override
 	public Respuesta responder(ZetaInsertDTO dto, Usuario u, Zeta z) {
@@ -27,6 +37,7 @@ public class RespuestaServicio implements IRespuestasServicio {
 	public void darLike(Respuesta r, Usuario actual) {
 		// TODO Auto-generated method stub
 		LikeInteraccion li = r.darLike(actual);
+		likeRespRepo.AddLike(actual.getId(), r.getId());
 		respuestaRepo.darLike(li);
 	}
 
@@ -34,6 +45,7 @@ public class RespuestaServicio implements IRespuestasServicio {
 	public void quitarLike(Respuesta r, Usuario actual) {
 		// TODO Auto-generated method stub
 		r.quitarLike(actual);
+		likeRespRepo.DeleteLike(actual.getId(), r.getId());
 		respuestaRepo.quitarLike(actual, r);
 	}
 
@@ -46,7 +58,7 @@ public class RespuestaServicio implements IRespuestasServicio {
 	@Override
 	public List<Respuesta> getRespuestasDeZeta(Zeta z) {
 		// TODO Auto-generated method stub
-		return respuestaRepo.obtenerRespuestasDeZeta(z.getId());
+		return respuestaRepo.obtenerRespuestasDeZeta(z);
 	}
 
 	@Override
@@ -61,5 +73,8 @@ public class RespuestaServicio implements IRespuestasServicio {
 		// TODO Auto-generated method stub
 		respuestaRepo.borrarRespuesta(r.getId());
 	}
+	
+
+
 
 }

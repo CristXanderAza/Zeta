@@ -22,7 +22,9 @@ import javax.swing.JLayeredPane;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 
+import Persistencia.ITemaRepository;
 import logica.Usuario;
+import logica.Servicios.IRespuestasServicio;
 import logica.Servicios.IZetasServicio;
 
 import javax.swing.UIManager;
@@ -39,6 +41,8 @@ public class Pantalla {
 	private JFrame frmZeta;
 	private Usuario usuarioActual;
 	private IZetasServicio zetaServicio;
+	private ITemaRepository temaRepositorio;
+	private IRespuestasServicio respuestaServicio;
 	private JPanel ActualView;
 	private JPanel lastView;
 
@@ -82,10 +86,12 @@ public class Pantalla {
 		initialize(null);
 	}
 	
-	public Pantalla(Usuario u, IZetasServicio zs) {
+	public Pantalla(Usuario u, IZetasServicio zs, ITemaRepository temaRepositorio, IRespuestasServicio respuestaServicio) {
 		this.usuarioActual = u;
 		Usuario.setActual(u);
+		this.temaRepositorio = temaRepositorio;
 		this.zetaServicio = zs;
+		this.respuestaServicio = respuestaServicio;
 		initialize(u);
 		frmZeta.setVisible(true);
 	}
@@ -119,7 +125,7 @@ public class Pantalla {
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 		ButtonGroup bgroup = new ButtonGroup();
 		JRadioButton rdbtnHome = new JRadioButton("Home");
-		rdbtnHome.addActionListener(e -> actualizarVista(new HomePanel(user, zetaServicio)));
+		rdbtnHome.addActionListener(e -> actualizarVista(new HomePanel(user, zetaServicio, temaRepositorio, respuestaServicio)));
 		bgroup.add(rdbtnHome);
 		rdbtnHome.setSelected(true);
 		rdbtnHome.setForeground(Color.WHITE);
@@ -153,7 +159,7 @@ public class Pantalla {
 		panel_2.add(rdbtnPerfil);
 		
 		ActualView = new JPanel();
-		JPanel v = new HomePanel(user, zetaServicio);
+		JPanel v = new HomePanel(user, zetaServicio, temaRepositorio,respuestaServicio);
 		//ActualView.add(v);
 		lastView = v;
 		actualizarVista(v); 

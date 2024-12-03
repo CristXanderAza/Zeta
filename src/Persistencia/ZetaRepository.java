@@ -94,7 +94,7 @@ public class ZetaRepository implements IZetasRepository{
 	                 + "    WHERE l.id_zeta = z.id_zeta AND l.id_cuenta = ?"
 	                 + ") AS likedByUser "
 	                 + "FROM zetas z "
-	                 + "LEFT JOIN archivos a ON z.imageReference = a.id_archivo "
+	                 + "LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
 	                 + "WHERE z.id_zeta = ?";
 
 	    try (Connection conn = DBConnection.getConnection(); // Obtener conexión a la base de datos
@@ -119,7 +119,7 @@ public class ZetaRepository implements IZetasRepository{
 	                int hiloID = rs.getInt("hilo_zeta");
 	                String imageReference = rs.getString("imageReference"); // Puede ser null
 	                int likesCantity = rs.getInt("likes");
-	                boolean likedByUser = rs.getBoolean("likedByUser");
+	                boolean likedByUser = (rs.getInt("likedByUser") == 1);
 
 	                // Obtener el usuario desde el repositorio de usuarios
 	                Usuario usuario = usuarioRepo.getByID(idUsuario);
@@ -135,7 +135,9 @@ public class ZetaRepository implements IZetasRepository{
 	                }
 
 	                // Crear y retornar la instancia de Zeta
-	                return new Zeta(zetaId, usuario, body, fecha, imageReference, hiloID, tema, parent, likedByUser);
+	                Zeta zr =  new Zeta(zetaId, usuario, body, fecha, imageReference, hiloID, tema, parent, likedByUser);
+	                zr.setLikesCantity(likesCantity);
+	                return zr;
 	            }
 	        }
 	    } catch (SQLException e) {
@@ -156,7 +158,7 @@ public class ZetaRepository implements IZetasRepository{
                 + "    WHERE l.id_zeta = z.id_zeta AND l.id_cuenta = ?"
                 + ") AS likedByUser "
                 + "FROM zetas z "
-                + "LEFT JOIN archivos a ON z.imageReference = a.id_archivo "
+                + "LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
                 ;
 
    try (Connection conn = DBConnection.getConnection(); // Obtener conexión a la base de datos
@@ -171,7 +173,7 @@ public class ZetaRepository implements IZetasRepository{
                   // Parámetro para el id del Zeta
 
        try (ResultSet rs = stmt.executeQuery()) {
-           if (rs.next()) {
+    	   while  (rs.next()) {
                // Obtener datos desde el ResultSet
                int zetaId = rs.getInt("id_zeta");
                int idUsuario = rs.getInt("id_cuenta");
@@ -181,7 +183,7 @@ public class ZetaRepository implements IZetasRepository{
                int hiloID = rs.getInt("hilo_zeta");
                String imageReference = rs.getString("imageReference"); // Puede ser null
                int likesCantity = rs.getInt("likes");
-               boolean likedByUser = rs.getBoolean("likedByUser");
+               boolean likedByUser = (rs.getInt("likedByUser") == 1);
 
                // Obtener el usuario desde el repositorio de usuarios
                Usuario usuario = usuarioRepo.getByID(idUsuario);
@@ -197,11 +199,15 @@ public class ZetaRepository implements IZetasRepository{
                }
 
                // Crear y retornar la instancia de Zeta
-               Zeta z = new Zeta(zetaId, usuario, body, fecha, imageReference, hiloID, tema, parent, likedByUser);
+               Zeta z = new Zeta(zetaId, usuario, body, fecha, (imageReference != null)? imageReference: "", hiloID, tema, parent, likedByUser);
+               System.out.println(z.getBody());
+               z.setLikesCantity(likesCantity);
+               
                res.add(z);
            }
         }
 	   } catch (SQLException e) {
+		   System.out.println(e.getMessage());
 	       e.printStackTrace();
 	   }
    		return res; 
@@ -283,6 +289,33 @@ public class ZetaRepository implements IZetasRepository{
 	@Override
 	public int agregarImagen(String rutaArchivo) {
 		// TODO Auto-generated method stub
+		String insertQuery = "Insert into archivos(ruta_archivo) values (?);";
+		String selectLastIdQuery = "SELECT LAST_INSERT_ID();";
+		
+		 try (Connection conn = DBConnection.getConnection();
+		         PreparedStatement ps = conn.prepareStatement(insertQuery)) {
+		        // Configurar los parámetros
+		        
+		       
+		        ps.setString(1, rutaArchivo);
+		       
+				
+		        // Ejecutar la consulta
+		        int rowsAffected = ps.executeUpdate();
+
+		        // Si se insertó con éxito, obtener el ID autogenerado
+		        if (rowsAffected > 0) {
+		            try (PreparedStatement psLastId = conn.prepareStatement(selectLastIdQuery);
+		                    ResultSet rs = psLastId.executeQuery()) {
+		                   if (rs.next()) {
+		                       return rs.getInt(1); // Asignar el ID generado al objeto Zeta
+		                   }
+		               }
+		            
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
 		return 0;
 	}
 
