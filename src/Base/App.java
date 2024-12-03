@@ -61,12 +61,13 @@ public class App {
     
     
     private static void iniciarDependencias() {
-    	userRepository = new UserRepository();
+    	UserRepository u = new UserRepository();
+    	userRepository = u;
     	temaRepository = new TemaRepository();
-    	likeZetaRepo = new LikeZetaRepository();
+    	likeZetaRepo = new LikeZetaRepository(u);
     	zetaRepository = new ZetaRepository(userRepository, temaRepository);
     	respuestaRespository = new RespuestaRepository(userRepository,zetaRepository );
-    	likeRespuestasRepo = new LikeComentsRepository();
+    	likeRespuestasRepo = new LikeComentsRepository(u);
     	
     	userServicio = new UserSevicio(userRepository);
     	zetaServicio = new ZetaServicio(zetaRepository, likeZetaRepo);

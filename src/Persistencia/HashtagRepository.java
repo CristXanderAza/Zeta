@@ -92,4 +92,22 @@ public class HashtagRepository implements IHashtagRepository {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public static int ObtenerCantidad(int idHashtag) {
+		String sql = "select Count(*) From hashtags_zetas Where id_hashtag = ?";
+		try (Connection con = DBConnection.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql)){
+			stmt.setInt(1, idHashtag);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				int totalHashtags = rs.getInt(1);
+				return totalHashtags;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
