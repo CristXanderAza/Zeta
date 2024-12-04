@@ -43,6 +43,25 @@ public class HashtagRepository implements IHashtagRepository {
         }
         return null;
     }
+    
+    
+    @Override
+    public Hashtag obtenerPorNombre(String  txt) {
+        String sql = "SELECT * FROM hashtags WHERE nombre = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, txt);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("id_hashtag");
+                String nombre = rs.getString("nombre");
+                return new Hashtag(id, nombre);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public List<Hashtag> obtenerTodos() {
@@ -90,7 +109,15 @@ public class HashtagRepository implements IHashtagRepository {
 	@Override
 	public void agregarZetaAHashtag(int idZeta, int idHashtag) {
 		// TODO Auto-generated method stub
-		
+        String sql = "INSERT INTO hashtags_zetas (id_zeta, id_hashtag) VALUES (?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idZeta);
+            stmt.setInt(2, idHashtag);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public static int ObtenerCantidad(int idHashtag) {

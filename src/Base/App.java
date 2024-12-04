@@ -2,12 +2,16 @@ package Base;
 
 import javax.swing.UIManager;
 
+import Persistencia.HashtagRepository;
+import Persistencia.IHashtagRepository;
+import Persistencia.IMencionesRepository;
 import Persistencia.IRespuestaRepository;
 import Persistencia.ITemaRepository;
 import Persistencia.IUserRepository;
 import Persistencia.IZetasRepository;
 import Persistencia.LikeComentsRepository;
 import Persistencia.LikeZetaRepository;
+import Persistencia.MencionesRepository;
 import Persistencia.RespuestaRepository;
 import Persistencia.TemaRepository;
 import Persistencia.UserRepository;
@@ -31,6 +35,8 @@ public class App {
 	private static IUserServicio userServicio;
 	private static ITemaRepository temaRepository;
 	private static IZetasRepository zetaRepository;
+	private static IMencionesRepository mencionesRepository;
+	private static IHashtagRepository hashtagRepository;
 	private static IRespuestasServicio respuestaServicio;
 	private static LikeComentsRepository likeRespuestasRepo;
 	private static IZetasServicio zetaServicio;
@@ -67,10 +73,12 @@ public class App {
     	likeZetaRepo = new LikeZetaRepository(u);
     	zetaRepository = new ZetaRepository(userRepository, temaRepository);
     	respuestaRespository = new RespuestaRepository(userRepository,zetaRepository );
+    	mencionesRepository = new MencionesRepository();
+    	hashtagRepository = new HashtagRepository();
     	likeRespuestasRepo = new LikeComentsRepository(u);
     	
     	userServicio = new UserSevicio(userRepository);
-    	zetaServicio = new ZetaServicio(zetaRepository, likeZetaRepo);
+    	zetaServicio = new ZetaServicio(zetaRepository, likeZetaRepo, userRepository, mencionesRepository, hashtagRepository);
     	respuestaServicio = new RespuestaServicio(respuestaRespository, likeRespuestasRepo);
     }
     

@@ -1,10 +1,17 @@
 package logica.Servicios;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import Persistencia.IHashtagRepository;
 import Persistencia.ILikeRepository;
+import Persistencia.IMencionesRepository;
+import Persistencia.IUserRepository;
 import Persistencia.IZetasRepository;
+import logica.Hashtag;
 import logica.LikeInteraccion;
 import logica.Usuario;
 import logica.Zeta;
@@ -14,10 +21,16 @@ public class ZetaServicio implements IZetasServicio {
 
 	private IZetasRepository zetaRepository;
 	private ILikeRepository likeReposiory;
+	private IUserRepository usuarioRepository;
+	private IMencionesRepository mencionesRepository;
+	private IHashtagRepository hashtagRepository;
 	
-	public ZetaServicio(IZetasRepository zRepo, ILikeRepository like) {
+	public ZetaServicio(IZetasRepository zRepo, ILikeRepository like,IUserRepository usuarioRepository, IMencionesRepository mencionesRepository, IHashtagRepository hashtagRepo) {
 		zetaRepository = zRepo;
 		likeReposiory = like;
+		this.usuarioRepository = usuarioRepository;
+		this.mencionesRepository = mencionesRepository;
+		hashtagRepository = hashtagRepo;
 	}
 
 
@@ -43,9 +56,66 @@ public class ZetaServicio implements IZetasServicio {
 			zt.setImageReference(z.getImageReference());
 		}
 		zetaRepository.agregarZeta(zt);
+		
+		//extraer menciones
+		List<String> menciones = extraerMenciones(z.getBody());
+		List<String> hashtagsTxt = extraerHashtags(z.getBody());
+		
+		//mostrarMencionesYHashtags(menciones, hashtags);
+		//Obtener Usuarios y Hashtags:
+		List<Usuario> usuarios = obtenerUsuariosMencionados(menciones);
+		List<Hashtag> hashtags = obtenerHashtagsMencionados(hashtagsTxt);
+		 
+		 
+	    //Mencionar:
+		for (Usuario usuario : usuarios) {
+			mencionesRepository.agregarMencion(usuario.getId(), zt.getId());
+		}
+		
+		//Hashtags
+		for (Hashtag hashtag : hashtags) {
+			hashtagRepository.agregarZetaAHashtag(zt.getId(), hashtag.getID());
+		}
+		
 		return zt;
 	}
 	
+	
+	private List<Usuario> obtenerUsuariosMencionados(List<String> usernames){
+		List<Usuario> res = new ArrayList<Usuario>();
+		for (String username : usernames) {
+			Usuario u = usuarioRepository.getByUsername(username);
+			if(u != null) {
+				res.add(u);
+			}
+		}	
+		return res;
+	}
+	
+	
+	private List<Hashtag> obtenerHashtagsMencionados(List<String> hashtagTxt){
+		List<Hashtag> res = new ArrayList<Hashtag>();
+		for (String hash : hashtagTxt) {
+			Hashtag u = hashtagRepository.obtenerPorNombre(hash);
+			if(u != null) {
+				res.add(u);
+			}
+		}	
+		return res;
+	}
+	
+	/*
+	private void mostrarMencionesYHashtags(List<String> menciones,List<String> hashtag ) {
+		System.out.println("Menciones:");
+		for (String string : menciones) {
+			System.out.println("	" + string);
+		}
+		System.out.println("Hashtags:");
+		for (String string : hashtag) {
+			System.out.println("	" + string);
+		}
+	}
+	*/
 	/*Notas de Cristopher:
 	 * Para el repositorio de los Zetas es necesario tres metodos relacionados a Likes
 	 * -Uno para confirmar si el usuario actual le ha dado like
@@ -98,5 +168,32 @@ public class ZetaServicio implements IZetasServicio {
 		zetaRepository.agregarZeta(z);
 		return z;
 	}
+	
+	
+    // Método para extraer menciones
+    public static List<String> extraerMenciones(String tweet) {
+        List<String> menciones = new ArrayList<>();
+        // Expresión regular para detectar menciones
+        Pattern patron = Pattern.compile("@(\\w+)");
+        Matcher matcher = patron.matcher(tweet);
+
+        while (matcher.find()) {
+            menciones.add(matcher.group(1)); // Captura la palabra después de "@"
+        }
+        return menciones;
+    }
+
+    // Método para extraer hashtags
+    public static List<String> extraerHashtags(String tweet) {
+        List<String> hashtags = new ArrayList<>();
+        // Expresión regular para detectar hashtags
+        Pattern patron = Pattern.compile("#(\\w+)");
+        Matcher matcher = patron.matcher(tweet);
+
+        while (matcher.find()) {
+            hashtags.add(matcher.group(1)); // Captura la palabra después de "#"
+        }
+        return hashtags;
+    }
 
 }
