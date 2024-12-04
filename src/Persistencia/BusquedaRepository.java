@@ -46,6 +46,7 @@ public class BusquedaRepository implements IBusquedaRepository{
 				int cantidad = HashtagRepository.ObtenerCantidad(rs.getInt("id_hashtag"));
 				busquedas.add(new Busqueda(rs.getInt("id_hashtag"), rs.getString("nombre"), "Hashtag", cantidad));
 			}
+			return busquedas;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

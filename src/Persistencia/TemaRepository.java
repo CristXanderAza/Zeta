@@ -84,4 +84,40 @@ public class TemaRepository  implements ITemaRepository{
             e.printStackTrace();
         }
     }
+	
+	@Override
+    public void agregarTemaAUsuario(int usuarioID, int temaID ) {
+        String sql = "insert into temas_Seguidos (id_tema, id_cuenta)\r\n"
+        		+ "Values (?,?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioID);
+            stmt.setInt(2, temaID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	
+    public List<Tema> obtenerPorUsuario(int usuarioId) {
+        List<Tema> temas = new ArrayList<>();
+        String sql = "SELECT * FROM temas_seguidos ts\r\n"
+        		+ "inner join temas t on t.id_tema = ts.id_tema\r\n"
+        		+ "where ts.id_cuenta = " + usuarioId;
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                int temaID = rs.getInt("id_tema");
+                String nombreTema = rs.getString("nombre_tema");
+                temas.add(new Tema(temaID, nombreTema));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temas;
+    }
+	
+	
 }

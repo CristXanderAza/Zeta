@@ -15,16 +15,34 @@ public class HashtagRepository implements IHashtagRepository {
 
 
     @Override
-    public void agregarHashtag(Hashtag h) {
-        String sql = "INSERT INTO hashtags (nombre) VALUES (?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, h.getNombre());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    public void agregarHashtag(Hashtag h)  {
+    	    String sql = "INSERT INTO hashtags (nombre) VALUES (?)";
+    	    try (Connection con = DBConnection.getConnection();
+    	         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    	        
+    	        // Establecer el valor del parámetro
+    	        stmt.setString(1, h.getNombre());
+    	        
+    	        // Ejecutar la inserción
+    	        int affectedRows = stmt.executeUpdate();
+    	        
+    	        if (affectedRows == 0) {
+    	            throw new SQLException("No se pudo insertar el hashtag, no se afectaron filas.");
+    	        }
+    	        
+    	        // Recuperar la clave generada automáticamente
+    	        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+    	            if (generatedKeys.next()) {
+    	                // Asignar el ID generado al objeto Hashtag
+    	                h.setID(generatedKeys.getInt(1));
+    	            } else {
+    	                throw new SQLException("No se pudo obtener el ID generado para el hashtag.");
+    	            }
+    	        }
+    	    } catch (SQLException e) {
+    	        e.printStackTrace();
+    	    }
+    	}
 
     @Override
     public Hashtag obtenerPorId(int idHashtag) {

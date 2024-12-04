@@ -286,7 +286,7 @@ public class HomePanel extends JPanel implements ChangeListener{
 		
 		JPanel panelZweetsView = new JPanel();
 		panelZweetsView.add(new ZweetViewer());
-		zv = new ZweetViewer(actualUsuario, zetaServicio, zetaServicio.getAll(), respuestaServicio);
+		zv = new ZweetViewer(actualUsuario, zetaServicio, zetaServicio.obtenerZetasDeSeguidos(actualUsuario), respuestaServicio);
 		zv.setPreferredSize(new Dimension(20, 200));
 		panel_5.add(zv);
 

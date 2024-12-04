@@ -1,5 +1,6 @@
 package UI.PublicacionesComponent;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -12,6 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import UI.ZweetViewer;
+import logica.Respuesta;
 import logica.Zeta;
 
 import javax.swing.border.BevelBorder;
@@ -24,6 +26,7 @@ public class ZetaImagenView extends JPanel {
 	private Zeta zeta;
 	private ZweetViewer contenedor;
 	private Boolean activarBotones;
+	private JButton btnLike;
 
 	/**
 	 * Create the panel.
@@ -84,18 +87,46 @@ public class ZetaImagenView extends JPanel {
 		panel_1.add(panel_2_1);
 		panel_2_1.setLayout(new BoxLayout(panel_2_1, BoxLayout.X_AXIS));
 		
-		JButton btnLike = new JButton("Like");
+		btnLike = new JButton("Like: " + zeta.getLikesCantity());
+		updateLikeButtonApareance();
+		btnLike.setEnabled(activarBotones);
 		btnLike.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnLike.addActionListener(e -> {
+			darLike();
+			
+		});
 		panel_2_1.add(btnLike);
 		
-		JButton btnComentar = new JButton("Comentar");
-		btnComentar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2_1.add(btnComentar);
+		if(!(zeta instanceof Respuesta)) {
+			JButton btnComentar = new JButton("Comentar");
+			btnComentar.addActionListener(e -> responder());
+			btnComentar.setEnabled(activarBotones);
+			btnComentar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+			panel_2_1.add(btnComentar);
+			
+			JButton btnRezweet = new JButton("Rezeta");
+			btnRezweet.setEnabled(activarBotones);
+
+			btnRezweet.addActionListener(e -> {
+				System.out.println("Rezeta");
+				contenedor.Rezetear(zeta);
+			});
+			btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+			panel_2_1.add(btnRezweet);
+			
+		}
 		
-		JButton btnRezweet = new JButton("Rezweet");
-		btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2_1.add(btnRezweet);
-		
+		if (zeta.getBody().contains("#") ||zeta.getBody().contains("@") ) {
+			JButton btnRef = new JButton("Ver Referencia");
+			btnRef.setEnabled(activarBotones);
+
+			btnRef.addActionListener(e -> {
+				System.out.println("Rezeta");
+				contenedor.Rezetear(zeta);
+			});
+			btnRef.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+			panel_2_1.add(btnRef);
+		}
 		JButton btnNewButton = new JButton("Perfil");
 		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2_1.add(btnNewButton);
@@ -111,4 +142,46 @@ public class ZetaImagenView extends JPanel {
         return icon;
 	}
 
+	
+    private void darLike() {
+    	if(zeta instanceof Respuesta) {
+    		if(!zeta.getLikedByUser()) {
+	    		contenedor.darLikeResp((Respuesta)zeta);    		
+	    	}
+	    	else {
+	    		contenedor.quitarLikeResp((Respuesta)zeta);
+	    	}
+    	}
+    	else {
+    		if(!zeta.getLikedByUser()) {
+	    		contenedor.darLike(zeta);    		
+	    	}
+	    	else {
+	    		contenedor.quitarLike(zeta);
+	    	}
+    	}
+	    	
+    	updateLikeButtonApareance();
+    	
+    }
+    
+    public void updateLikeButtonApareance() {
+    	if(zeta.getLikedByUser()) {
+    		
+    		btnLike.setForeground(Color.blue);
+    		btnLike.setText("Like: " + zeta.getLikesCantity());
+    		System.out.println("Encendido");
+    		
+    	}
+    	else {
+    		
+    		btnLike.setForeground(Color.black);
+    		btnLike.setText("Like: " + zeta.getLikesCantity());
+    		System.out.println("Apagado");
+    	}
+    }
+    
+    private void responder() {
+    	contenedor.Responder(zeta);
+    }
 }

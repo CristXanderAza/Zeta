@@ -11,4 +11,5 @@ public interface ITemaRepository {
 	public List<Tema> obtenerTodosLosTemas();
     public void actualizarTema(Tema tema);
     public void eliminarTema(int idTema);
+    public void agregarTemaAUsuario(int usuarioID, int temaID );
 }

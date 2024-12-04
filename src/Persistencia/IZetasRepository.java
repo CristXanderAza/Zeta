@@ -23,6 +23,10 @@ public interface IZetasRepository {
 	
 	public List<Zeta> obtenerPorHastag(int hashtagId);
 	
+	public List<Zeta> obtenerPorUsuariosSeguidos(int usuarioID);
+	
+	public List<Zeta> obtenerPorTemaSeguidos(int usuarioID);
+	
 	public List<Zeta> obtenerPorTema(Tema t);
 	
 	public List<Zeta> obtenerPorUsuario(Usuario u);

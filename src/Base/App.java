@@ -15,11 +15,11 @@ import Persistencia.MencionesRepository;
 import Persistencia.RespuestaRepository;
 import Persistencia.TemaRepository;
 import Persistencia.UserRepository;
-import Persistencia.UserRepositoryFalso;
 import Persistencia.ZetaRepository;
-import Persistencia.ZetaRepositoryFalso;
 import UI.Login;
 import UI.Pantalla;
+import UI.ScrollZetaViewer;
+import logica.Hashtag;
 import logica.Usuario;
 import logica.Servicios.IRespuestasServicio;
 import logica.Servicios.IUserServicio;
@@ -85,6 +85,11 @@ public class App {
     public static void iniciarSesion(Usuario u) {
     	login.dispose();
     	pantalla = new Pantalla(u, zetaServicio, temaRepository, respuestaServicio);
+    }
+    
+    public static void visualizarZetasPorHashtag(int hashtagID) {
+    	Hashtag h = hashtagRepository.obtenerPorId(hashtagID);
+    	ScrollZetaViewer sv = new ScrollZetaViewer(zetaServicio.obtenerPorHashtagId(hashtagID), h.getNombre(), zetaServicio, respuestaServicio);
     }
 	
 	

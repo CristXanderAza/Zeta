@@ -15,9 +15,9 @@ public class UserRepositoryFalso implements IUserRepository{
     	));
     
 	@Override
-	public void add(Usuario u) {
+	public int add(Usuario u) {
 		// TODO Auto-generated method stub
-		
+		return 1;
 	}
 
 	@Override

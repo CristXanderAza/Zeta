@@ -102,4 +102,16 @@ public class ZetaRepositoryFalso implements IZetasRepository {
 		return null;
 	}
 
+	@Override
+	public List<Zeta> obtenerPorUsuariosSeguidos(int usuarioID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Zeta> obtenerPorTemaSeguidos(int usuarioID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

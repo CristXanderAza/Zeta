@@ -6,7 +6,7 @@ import logica.Usuario;
 
 public interface IUserRepository {
 
-	public void add(Usuario u);
+	public int add(Usuario u);
 	
 	public Usuario getByUsername(String username);
 	public Usuario getByID(int id);

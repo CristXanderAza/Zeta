@@ -1,5 +1,6 @@
 package Persistencia;
 
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,27 +9,42 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.sql.Statement;
+
+
 import logica.Usuario;
 
 public class UserRepository implements IUserRepository{
 
 	@Override
-	public void add(Usuario u) {
-		Date todaydate = new Date(System.currentTimeMillis());
-		String sql = "insert into cuenta (nombre_cuenta, arroba_cuenta, correo_cuenta, verificado_cuenta, fecha_creacion_cuenta, contrasena)"
-				+ "values (?, ?, ?, ?, ?, ?)";
-		try (Connection con = DBConnection.getConnection();
-			PreparedStatement stmt = con.prepareStatement(sql)){
-			stmt.setString(1, u.getNombre());
-			stmt.setString(2, u.getUsername());
-			stmt.setString(3, u.getCorreo());
-			stmt.setInt(4, 0);
-			stmt.setDate(5, todaydate);
-			stmt.setString(6, u.getContrasenia());
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public int add(Usuario u) {
+	    Date todaydate = new Date(System.currentTimeMillis());
+	    String sql = "INSERT INTO cuenta (nombre_cuenta, arroba_cuenta, correo_cuenta, verificado_cuenta, fecha_creacion_cuenta, contrasena)"
+	               + " VALUES (?, ?, ?, ?, ?, ?)";
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+	         
+	        // Establecer los valores para la inserción
+	        stmt.setString(1, u.getNombre());
+	        stmt.setString(2, u.getUsername());
+	        stmt.setString(3, u.getCorreo());
+	        stmt.setInt(4, 0); // Suponiendo que "verificado_cuenta" es un valor inicial en 0
+	        stmt.setDate(5, todaydate);
+	        stmt.setString(6, u.getContrasenia());
+	        
+	        // Ejecutar la inserción
+	        stmt.executeUpdate();
+	        
+	        // Recuperar el ID generado automáticamente
+	        try (ResultSet rs = stmt.getGeneratedKeys()) {
+	            if (rs.next()) {
+	                return rs.getInt(1); // Retornar el ID generado
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return -1;
 	}
 
 	@Override
@@ -148,46 +164,48 @@ public class UserRepository implements IUserRepository{
 		}
 	}
 
-	public static List<Usuario> SearchFollowedUsers(int id){
-		String sql = "select * From seguidores Where id_seguidor = ?";
-		String sql2 = "select * From cuenta Where id_cuenta = ?";
-		try (Connection con = DBConnection.getConnection();
-				PreparedStatement stmt = con.prepareStatement(sql);
-				PreparedStatement stmt2 = con.prepareStatement(sql2)){
-			
-			//Paso 1: Buscar las cuentas que sigue el usuario
-			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
-			List<Integer> idSeguidos = new ArrayList<Integer>();
-			while(rs.next()) {
-				//Guardar el id de las cuentas seguidas
-				idSeguidos.add(rs.getInt("id_cuenta"));
-			}
-			
-			//Paso 2: Buscar cuentas seguidas por el usuario
-			List<Usuario> seguidos = new ArrayList<Usuario>();
-			for(Integer indice : idSeguidos) {
-				//colocar el indice actual a la consulta
-				stmt2.setInt(1, indice);
-				
-				ResultSet rs2 = stmt2.executeQuery();
-				String nombreCuentaSeguido = rs2.getString("nombre_cuenta");
-				String usernameSeguido = rs2.getString("arroba_cuenta");
-				String correoSeguido = rs2.getString("correo_cuenta");
-				boolean verificadoSeguido = rs2.getBoolean("verificado_cuenta");
-				String contraseniaSeguido = rs2.getString("contrasena");
-				
-				//añadir cuenta seguida a la lista
-				seguidos.add(new Usuario(indice, nombreCuentaSeguido, correoSeguido, usernameSeguido, contraseniaSeguido, verificadoSeguido));
-			}
-			
-			return seguidos;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public static List<Usuario> SearchFollowedUsers(int id) {
+	    String sql = "SELECT * FROM seguidores WHERE id_seguidor = ?";
+	    String sql2 = "SELECT * FROM cuenta WHERE id_cuenta = ?";
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql);
+	         PreparedStatement stmt2 = con.prepareStatement(sql2)) {
+
+	        // Paso 1: Buscar las cuentas que sigue el usuario
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+	        List<Integer> idSeguidos = new ArrayList<>();
+
+	        while (rs.next()) {
+	            // Guardar el id de las cuentas seguidas
+	            idSeguidos.add(rs.getInt("id_cuenta"));
+	        }
+
+	        // Paso 2: Buscar cuentas seguidas por el usuario
+	        List<Usuario> seguidos = new ArrayList<>();
+	        for (Integer indice : idSeguidos) {
+	            // Colocar el índice actual a la consulta
+	            stmt2.setInt(1, indice);
+	            try (ResultSet rs2 = stmt2.executeQuery()) { // Mover el cursor con rs2.next()
+	                if (rs2.next()) { // Verifica que hay un registro antes de acceder
+	                    String nombreCuentaSeguido = rs2.getString("nombre_cuenta");
+	                    String usernameSeguido = rs2.getString("arroba_cuenta");
+	                    String correoSeguido = rs2.getString("correo_cuenta");
+	                    boolean verificadoSeguido = rs2.getBoolean("verificado_cuenta");
+	                    String contraseniaSeguido = rs2.getString("contrasena");
+
+	                    // Añadir cuenta seguida a la lista
+	                    seguidos.add(new Usuario(indice, nombreCuentaSeguido, correoSeguido, usernameSeguido, contraseniaSeguido, verificadoSeguido));
+	                }
+	            }
+	        }
+
+	        return seguidos;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 	
 	public static List<Usuario> SearchFollowers(int id){

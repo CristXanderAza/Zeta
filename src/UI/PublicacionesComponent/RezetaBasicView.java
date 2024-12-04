@@ -3,6 +3,8 @@ package UI.PublicacionesComponent;
 import javax.swing.JPanel;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
+
+import java.awt.Color;
 import java.awt.Container;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -11,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
 import UI.ZweetViewer;
+import logica.Respuesta;
 import logica.Zeta;
 
 public class RezetaBasicView extends JPanel {
@@ -19,6 +22,8 @@ public class RezetaBasicView extends JPanel {
 	private Zeta zeta;
 	private ZweetViewer contenedor;
 	private Boolean activarBotones;
+	private JButton btnLike;
+
 
 	/**
 	 * Create the panel.
@@ -30,11 +35,13 @@ public class RezetaBasicView extends JPanel {
 	}
 	
 	public RezetaBasicView(Zeta z, ZweetViewer contenedor, Boolean activar) {
-
+		this.zeta = z;
+		this.contenedor = contenedor;
+		
+		this.activarBotones = activar;
 		initialize(z.getUsuario().getUsername(), z.getParent().getUsuario().getUsername()
 				, z.getBody(), z.getParent().getBody());
-		this.contenedor = contenedor;
-		this.activarBotones = activar;
+
 	}
 	
 	
@@ -71,21 +78,93 @@ public class RezetaBasicView extends JPanel {
 		panel_1.add(panel_2_1);
 		panel_2_1.setLayout(new BoxLayout(panel_2_1, BoxLayout.X_AXIS));
 		
-		JButton btnLike = new JButton("Like");
+		btnLike = new JButton("Like: " + zeta.getLikesCantity());
+		updateLikeButtonApareance();
+		btnLike.setEnabled(activarBotones);
 		btnLike.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnLike.addActionListener(e -> {
+			darLike();
+			
+		});
 		panel_2_1.add(btnLike);
 		
-		JButton btnComentar = new JButton("Comentar");
-		btnComentar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2_1.add(btnComentar);
+		if(!(zeta instanceof Respuesta)) {
+			JButton btnComentar = new JButton("Comentar");
+			btnComentar.addActionListener(e -> responder());
+			btnComentar.setEnabled(activarBotones);
+			btnComentar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+			panel_2_1.add(btnComentar);
+			
+			JButton btnRezweet = new JButton("Rezeta");
+			btnRezweet.setEnabled(activarBotones);
+
+			btnRezweet.addActionListener(e -> {
+				System.out.println("Rezeta");
+				contenedor.Rezetear(zeta);
+			});
+			btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+			panel_2_1.add(btnRezweet);
+			
+		}
 		
-		JButton btnRezweet = new JButton("Rezweet");
-		btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2_1.add(btnRezweet);
+		if (zeta.getBody().contains("#") ||zeta.getBody().contains("@") ) {
+			JButton btnRef = new JButton("Ver Referencia");
+			btnRef.setEnabled(activarBotones);
+
+			btnRef.addActionListener(e -> {
+				System.out.println("Rezeta");
+				contenedor.Rezetear(zeta);
+			});
+			btnRef.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+			panel_2_1.add(btnRef);
+		}
+		
 		
 		JButton btnNewButton = new JButton("Perfil");
 		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2_1.add(btnNewButton);
 	}
 
+	
+    private void darLike() {
+    	if(zeta instanceof Respuesta) {
+    		if(!zeta.getLikedByUser()) {
+	    		contenedor.darLikeResp((Respuesta)zeta);    		
+	    	}
+	    	else {
+	    		contenedor.quitarLikeResp((Respuesta)zeta);
+	    	}
+    	}
+    	else {
+    		if(!zeta.getLikedByUser()) {
+	    		contenedor.darLike(zeta);    		
+	    	}
+	    	else {
+	    		contenedor.quitarLike(zeta);
+	    	}
+    	}
+	    	
+    	updateLikeButtonApareance();
+    	
+    }
+    
+    public void updateLikeButtonApareance() {
+    	if(zeta.getLikedByUser()) {
+    		
+    		btnLike.setForeground(Color.blue);
+    		btnLike.setText("Like: " + zeta.getLikesCantity());
+    		System.out.println("Encendido");
+    		
+    	}
+    	else {
+    		
+    		btnLike.setForeground(Color.black);
+    		btnLike.setText("Like: " + zeta.getLikesCantity());
+    		System.out.println("Apagado");
+    	}
+    }
+    
+    private void responder() {
+    	contenedor.Responder(zeta);
+    }
 }

@@ -10,6 +10,12 @@ public class Hashtag {
 		ID = iD;
 		this.nombre = nombre;
 	}
+	
+	public Hashtag(String nombre) {
+		super();
+		
+		this.nombre = nombre;
+	}
 
 	public int getID() {
 		return ID;

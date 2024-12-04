@@ -1,6 +1,7 @@
 package logica.Servicios;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,6 +14,7 @@ import Persistencia.IUserRepository;
 import Persistencia.IZetasRepository;
 import logica.Hashtag;
 import logica.LikeInteraccion;
+import logica.ListUtil;
 import logica.Usuario;
 import logica.Zeta;
 import logica.ZetaInsertDTO;
@@ -99,6 +101,11 @@ public class ZetaServicio implements IZetasServicio {
 			Hashtag u = hashtagRepository.obtenerPorNombre(hash);
 			if(u != null) {
 				res.add(u);
+			}
+			else {
+				Hashtag h = new Hashtag(hash);
+				hashtagRepository.agregarHashtag(h);
+				res.add(h);
 			}
 		}	
 		return res;
@@ -195,5 +202,24 @@ public class ZetaServicio implements IZetasServicio {
         }
         return hashtags;
     }
+
+
+	@Override
+	public List<Zeta> obtenerZetasDeSeguidos(Usuario u) {
+		// TODO Auto-generated method stub
+		//List<Zeta> zetasSeguidos = zetaRepository.obtenerPorUsuariosSeguidos(u.getId());
+		List<Zeta> zetasTemas = zetaRepository.obtenerPorTemaSeguidos(u.getId());
+		
+        // Definir el comparador para ordenar por fecha
+        //Comparator<Zeta> comparadorPorFecha = Comparator.comparing(Zeta :: getFechaPublicacion);
+        //List<Zeta> listaOrdenada = ListUtil.combinarYOrdenarPorFecha(zetasSeguidos, zetasTemas, comparadorPorFecha);
+		
+		return zetasTemas;
+	}
+	
+	@Override
+	public List<Zeta> obtenerPorHashtagId( int idHashtag){
+		return zetaRepository.obtenerPorHastag(idHashtag);
+	}
 
 }

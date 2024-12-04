@@ -23,9 +23,13 @@ public interface IZetasServicio {
 	
 	public void delete(Zeta z);
 	
+	public List<Zeta> obtenerZetasDeSeguidos(Usuario u);
+	
 	public List<Zeta> getAll();
 	
 	public void darLike(Zeta z, Usuario u) ;
 	
 	public void quitarLike(Zeta z, Usuario u) ;
+	
+	public List<Zeta> obtenerPorHashtagId( int idHashtag);
 }
