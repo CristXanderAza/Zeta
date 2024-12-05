@@ -17,7 +17,7 @@ public class ScrollPerfil extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         contentPanel.setLayout(new BorderLayout()); 
-
+        /*
         TargetExplorer targetExplorer = new TargetExplorer();
         contentPanel.setLayout(new GridLayout(0, 1, 10, 10)); 
         contentPanel.add(new TargetExplorer());
@@ -26,7 +26,7 @@ public class ScrollPerfil extends JPanel {
         contentPanel.add(new TargetExplorer());
         contentPanel.add(new TargetExplorer());
         contentPanel.add(new TargetExplorer());
-
+        */
         JScrollPane scrollPane = new JScrollPane(contentPanel);
 
         add(scrollPane, BorderLayout.CENTER);

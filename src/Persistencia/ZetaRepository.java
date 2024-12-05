@@ -280,9 +280,9 @@ public class ZetaRepository implements IZetasRepository{
                 + "    WHERE l.id_zeta = z.id_zeta AND l.id_cuenta = ?"
                 + ") AS likedByUser "
                 + "FROM zetas z "
-                + "Inner join hashtags_zetas h on h.id_zeta = z.id_zeta"
-                + "LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
-                + "Where h.id_hashtag = ?"
+                + " Inner join hashtags_zetas h on h.id_zeta = z.id_zeta"
+                + " LEFT JOIN archivos a ON z.id_archivo = a.id_archivo "
+                + " Where h.id_hashtag = ?"
                 ;
 
    try (Connection conn = DBConnection.getConnection(); // Obtener conexión a la base de datos

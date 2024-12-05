@@ -8,7 +8,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import Persistencia.HashtagRepository;
 import Persistencia.ITemaRepository;
+import logica.HashtagWithDataDTO;
 import logica.Tema;
 import logica.Usuario;
 import logica.Zeta;
@@ -50,6 +52,7 @@ public class HomePanel extends JPanel implements ChangeListener{
 	private ITemaRepository temaRepositorio;
 	private IZetasServicio zetaServicio;
 	private IRespuestasServicio respuestaServicio;
+	private List<HashtagWithDataDTO> topHashtag;
 	private String imagenRuta;
 	private JButton btnImagen ;
 	
@@ -58,6 +61,7 @@ public class HomePanel extends JPanel implements ChangeListener{
 	 */
 	public HomePanel(Usuario u, IZetasServicio zetaServicio, ITemaRepository temaRepo, IRespuestasServicio respuestaServicio ) {
 		imagenRuta = "";
+		topHashtag = HashtagRepository.obtenerTop4();
 		setLayout(new BorderLayout(0, 0));
 		actualUsuario = u;
 		this.zetaServicio = zetaServicio;
@@ -101,17 +105,17 @@ public class HomePanel extends JPanel implements ChangeListener{
 		panel_41.add(panel_8);
 		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_8.add(lblNewLabel_1);
+		JLabel lblHash1 = new JLabel("New label");
+		lblHash1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_8.add(lblHash1);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setFont(new Font("Century Gothic", Font.PLAIN, 8));
-		panel_8.add(lblNewLabel_2);
+		JLabel lblHashCan1 = new JLabel("New label");
+		lblHashCan1.setFont(new Font("Century Gothic", Font.PLAIN, 8));
+		panel_8.add(lblHashCan1);
 		
-		JButton btnNewButton_3 = new JButton("ver");
-		btnNewButton_3.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_41.add(btnNewButton_3);
+		JButton btnHash1 = new JButton("ver");
+		btnHash1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_41.add(btnHash1);
 		
 		JPanel panel_41_1 = new JPanel();
 		panel_41_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -121,17 +125,17 @@ public class HomePanel extends JPanel implements ChangeListener{
 		panel_41_1.add(panel_8_1);
 		panel_8_1.setLayout(new BoxLayout(panel_8_1, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_1_1 = new JLabel("New label");
-		lblNewLabel_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_8_1.add(lblNewLabel_1_1);
+		JLabel lblHash2 = new JLabel("New label");
+		lblHash2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_8_1.add(lblHash2);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("New label");
-		lblNewLabel_2_1.setFont(new Font("Century Gothic", Font.PLAIN, 8));
-		panel_8_1.add(lblNewLabel_2_1);
+		JLabel lblHashCan2 = new JLabel("New label");
+		lblHashCan2.setFont(new Font("Century Gothic", Font.PLAIN, 8));
+		panel_8_1.add(lblHashCan2);
 		
-		JButton btnNewButton_3_1 = new JButton("ver");
-		btnNewButton_3_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_41_1.add(btnNewButton_3_1);
+		JButton btnHash2 = new JButton("ver");
+		btnHash2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_41_1.add(btnHash2);
 		
 		JPanel panel_41_1_1 = new JPanel();
 		panel_41_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -141,17 +145,17 @@ public class HomePanel extends JPanel implements ChangeListener{
 		panel_41_1_1.add(panel_8_1_1);
 		panel_8_1_1.setLayout(new BoxLayout(panel_8_1_1, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("New label");
-		lblNewLabel_1_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_8_1_1.add(lblNewLabel_1_1_1);
+		JLabel lblHash3 = new JLabel("New label");
+		lblHash3.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_8_1_1.add(lblHash3);
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("New label");
-		lblNewLabel_2_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 8));
-		panel_8_1_1.add(lblNewLabel_2_1_1);
+		JLabel lblHashCan3 = new JLabel("New label");
+		lblHashCan3.setFont(new Font("Century Gothic", Font.PLAIN, 8));
+		panel_8_1_1.add(lblHashCan3);
 		
-		JButton btnNewButton_3_1_1 = new JButton("ver");
-		btnNewButton_3_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_41_1_1.add(btnNewButton_3_1_1);
+		JButton btnHash3 = new JButton("ver");
+		btnHash3.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_41_1_1.add(btnHash3);
 		
 		JPanel panel_41_1_1_1 = new JPanel();
 		panel_41_1_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -161,17 +165,17 @@ public class HomePanel extends JPanel implements ChangeListener{
 		panel_41_1_1_1.add(panel_8_1_1_1);
 		panel_8_1_1_1.setLayout(new BoxLayout(panel_8_1_1_1, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("New label");
-		lblNewLabel_1_1_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_8_1_1_1.add(lblNewLabel_1_1_1_1);
+		JLabel lblHash4 = new JLabel("New label");
+		lblHash4.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_8_1_1_1.add(lblHash4);
 		
-		JLabel lblNewLabel_2_1_1_1 = new JLabel("New label");
-		lblNewLabel_2_1_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 8));
-		panel_8_1_1_1.add(lblNewLabel_2_1_1_1);
+		JLabel lblHashCan4 = new JLabel("New label");
+		lblHashCan4.setFont(new Font("Century Gothic", Font.PLAIN, 8));
+		panel_8_1_1_1.add(lblHashCan4);
 		
-		JButton btnNewButton_3_1_1_1 = new JButton("ver");
-		btnNewButton_3_1_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_41_1_1_1.add(btnNewButton_3_1_1_1);
+		JButton btnHash4 = new JButton("ver");
+		btnHash4.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_41_1_1_1.add(btnHash4);
 		
 		JPanel panel_4_1 = new JPanel();
 		panel.add(panel_4_1);
@@ -289,7 +293,25 @@ public class HomePanel extends JPanel implements ChangeListener{
 		zv = new ZweetViewer(actualUsuario, zetaServicio, zetaServicio.obtenerZetasDeSeguidos(actualUsuario), respuestaServicio);
 		zv.setPreferredSize(new Dimension(20, 200));
 		panel_5.add(zv);
+		
+		
+		
+		lblHash1.setText(topHashtag.get(0).getNombre());
+		lblHash2.setText(topHashtag.get(1).getNombre());
+		lblHash3.setText(topHashtag.get(2).getNombre());
+		//lblHash4.setText(topHashtag.get(3).getNombre());
+		
+		
+		lblHashCan1.setText("" + topHashtag.get(0).getCantidadPost());
+		lblHashCan2.setText("" + topHashtag.get(1).getCantidadPost());
+		lblHashCan3.setText("" + topHashtag.get(2).getCantidadPost());
+		//lblHashCan4.setText("" + topHashtag.get(3).getCantidadPost());
 
+		
+		btnHash1.addActionListener(e -> mostrarHashPanel(topHashtag.get(0)));
+		btnHash2.addActionListener(e -> mostrarHashPanel(topHashtag.get(1)));
+		btnHash3.addActionListener(e -> mostrarHashPanel(topHashtag.get(2)));
+		//btnHash4.addActionListener(e -> mostrarHashPanel(topHashtag.get(3)));
 	}
 
 
@@ -298,8 +320,8 @@ public class HomePanel extends JPanel implements ChangeListener{
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(txtZeta)) {
 			int carac = txtZeta.getText().length();
-			lblCaracteres.setText(carac + "/280");
-			if(carac > 280) {
+			lblCaracteres.setText(carac + "/250");
+			if(carac > 250) {
 				btnPublicar.setEnabled(false);
 				lblCaracteres.setForeground(Color.red);
 			}
@@ -371,5 +393,9 @@ public class HomePanel extends JPanel implements ChangeListener{
     		
     		quitarImagen();            
     	}
+    }
+    
+    private void mostrarHashPanel(HashtagWithDataDTO dto) {
+    	
     }
 }

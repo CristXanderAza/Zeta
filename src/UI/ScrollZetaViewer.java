@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.List;
+import javax.swing.BoxLayout;
 
 public class ScrollZetaViewer {
 
@@ -82,6 +83,7 @@ public class ScrollZetaViewer {
 		
 		JPanel ZPanel = new JPanel();
 		frame.getContentPane().add(ZPanel, BorderLayout.CENTER);
+		ZPanel.setLayout(new BoxLayout(ZPanel, BoxLayout.X_AXIS));
 		
 		
 		zv = new ZweetViewer(Usuario.getActual(), zetaServicio, zetas, respuestaServicio);

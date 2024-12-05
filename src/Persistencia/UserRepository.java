@@ -105,6 +105,35 @@ public class UserRepository implements IUserRepository{
 		}
 		return null;
 	}
+	
+	
+	
+	
+	public static Usuario obtenerPorID(int id) {
+		String sql = "select * From cuenta Where id_cuenta = ?";
+		try (Connection con = DBConnection.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql)){
+			stmt.setInt(1, id);
+			
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				String nombreCuenta = rs.getString("nombre_cuenta");
+				String username = rs.getString("arroba_cuenta");
+				String correo = rs.getString("correo_cuenta");
+				boolean verificado = rs.getBoolean("verificado_cuenta");
+				String contrasenia = rs.getString("contrasena");
+				
+				Usuario usuario = new Usuario(id, nombreCuenta, correo, username, contrasenia, verificado);
+				
+				usuario.setSeguidos(UserRepository.SearchFollowedUsers(id));
+				return usuario;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<Usuario> getAll() {
@@ -252,6 +281,21 @@ public class UserRepository implements IUserRepository{
 	
 	public static void SeguirUsuario(int idMicuenta, int idCuentaseguir) {
 		String sql = "insert into seguidores (id_seguidor, id_cuenta) values (?, ?)";
+		System.out.println( idMicuenta + " esta siguiendo a " + idCuentaseguir);
+		try (Connection con = DBConnection.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql)){
+			stmt.setInt(1, idMicuenta);
+			stmt.setInt(2, idCuentaseguir);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void dejarDeseguirUsuario(int idMicuenta, int idCuentaseguir) {
+		String sql = "Delete from seguidores Where id_seguidor = ? AND id_cuenta = ?";
 		try (Connection con = DBConnection.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql)){
 			stmt.setInt(1, idMicuenta);

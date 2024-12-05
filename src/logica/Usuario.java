@@ -121,6 +121,15 @@ public class Usuario {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public Boolean loEstoySiguiendo(int idSiguiendo) {
+		for (Usuario usuario : seguidos) {
+			if(usuario.getId() == idSiguiendo) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String getContrasenia() {
 		return contrasenia;

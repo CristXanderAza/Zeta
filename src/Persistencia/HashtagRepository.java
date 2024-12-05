@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import logica.Hashtag;
+import logica.HashtagWithDataDTO;
 
 public class HashtagRepository implements IHashtagRepository {
     
@@ -155,4 +156,25 @@ public class HashtagRepository implements IHashtagRepository {
 		}
 		return 0;
 	}
+	
+    
+    public static List<HashtagWithDataDTO> obtenerTop4() {
+        List<HashtagWithDataDTO> hashtags = new ArrayList<>();
+        String sql = "SELECT * FROM hashtags limit 4";
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                int id = rs.getInt("id_hashtag");
+                String nombre = rs.getString("nombre");
+                int can = ObtenerCantidad(id);
+                hashtags.add(new HashtagWithDataDTO(id, nombre, can));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hashtags;
+    }
+	
+	
 }

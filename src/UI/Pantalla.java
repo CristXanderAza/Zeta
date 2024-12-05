@@ -23,7 +23,9 @@ import java.awt.Color;
 import javax.swing.border.TitledBorder;
 
 import Persistencia.ITemaRepository;
+import Persistencia.IZetasRepository;
 import logica.Usuario;
+import logica.Servicios.BusquedaServicio;
 import logica.Servicios.IRespuestasServicio;
 import logica.Servicios.IZetasServicio;
 
@@ -45,6 +47,8 @@ public class Pantalla {
 	private IRespuestasServicio respuestaServicio;
 	private JPanel ActualView;
 	private JPanel lastView;
+	private BusquedaServicio busquedaServicio;
+	private IZetasRepository zetaRepo;
 
 	/**
 	 * Launch the application.
@@ -86,12 +90,15 @@ public class Pantalla {
 		initialize(null);
 	}
 	
-	public Pantalla(Usuario u, IZetasServicio zs, ITemaRepository temaRepositorio, IRespuestasServicio respuestaServicio) {
+	public Pantalla(Usuario u, IZetasServicio zs, ITemaRepository temaRepositorio, IRespuestasServicio respuestaServicio, BusquedaServicio bus, 
+			IZetasRepository z) {
 		this.usuarioActual = u;
 		Usuario.setActual(u);
 		this.temaRepositorio = temaRepositorio;
 		this.zetaServicio = zs;
 		this.respuestaServicio = respuestaServicio;
+		this.busquedaServicio = bus;
+		this.zetaRepo = z;
 		initialize(u);
 		frmZeta.setVisible(true);
 	}
@@ -133,13 +140,14 @@ public class Pantalla {
 		panel_2.add(rdbtnHome);
 		
 		JRadioButton rdbtnExplorar = new JRadioButton("Explorar         .");
-		rdbtnExplorar.addActionListener(e -> actualizarVista(new Explorer()));
+		rdbtnExplorar.addActionListener(e -> actualizarVista(new Explorer(busquedaServicio)));
 		bgroup.add(rdbtnExplorar);
 		rdbtnExplorar.setForeground(Color.WHITE);
 		rdbtnExplorar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(rdbtnExplorar);
 		
 		JRadioButton rdbtnNotif = new JRadioButton("Notificaciones");
+		rdbtnNotif.addActionListener(e -> actualizarVista(new NotificationsPanel()));
 		bgroup.add(rdbtnNotif);
 		rdbtnNotif.setForeground(Color.WHITE);
 		rdbtnNotif.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -152,7 +160,7 @@ public class Pantalla {
 		panel_2.add(rdbtnMensajes);
 		
 		JRadioButton rdbtnPerfil = new JRadioButton("Perfil");
-		rdbtnPerfil.addActionListener(e -> actualizarVista(new Perfil()));
+		rdbtnPerfil.addActionListener(e -> actualizarVista(new Perfil(zetaRepo, zetaServicio, respuestaServicio, busquedaServicio)));
 		bgroup.add(rdbtnPerfil);
 		rdbtnPerfil.setForeground(Color.WHITE);
 		rdbtnPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));

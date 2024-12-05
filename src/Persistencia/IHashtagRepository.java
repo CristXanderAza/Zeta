@@ -13,4 +13,5 @@ public interface IHashtagRepository {
     public void eliminar(int idHashtag);
     public void agregarZetaAHashtag(int idZeta, int idHashtag);
     public Hashtag obtenerPorNombre(String  nombre);
+   
 }

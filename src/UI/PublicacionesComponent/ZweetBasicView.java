@@ -3,6 +3,7 @@ package UI.PublicacionesComponent;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import Base.App;
 import UI.RezetearWindow;
 import UI.ZweetViewer;
 import logica.Respuesta;
@@ -119,6 +120,7 @@ public class ZweetBasicView extends JPanel {
 		}
 		
 		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.addActionListener(e -> App.visualizarPerfil(zeta.getUsuario().getId()));
 		btnPerfil.setEnabled(activarBotones);
 		btnPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(btnPerfil);

@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.List;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -15,6 +17,8 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 
 import UI.PublicacionesComponent.ScrollExplorer;
+import logica.Busqueda;
+import logica.Servicios.BusquedaServicio;
 
 import javax.swing.border.BevelBorder;
 
@@ -22,8 +26,12 @@ public class Explorer extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldBuscar;
+	private BusquedaServicio buscarServicio;
+	private ScrollExplorer scrollExplorer ;
+	private  BusquedaServicio busquedaServ;
 
-	public Explorer() {
+	public Explorer(BusquedaServicio busquedaServ) {
+		this.buscarServicio =  busquedaServ;
 		setLayout(new BorderLayout());
 
 		JPanel panel_1 = new JPanel();
@@ -142,6 +150,7 @@ public class Explorer extends JPanel {
 		panel_2.add(textFieldBuscar);
 
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(e -> buscar(textFieldBuscar.getText()));
 		btnSearch.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_3.add(btnSearch);
 
@@ -150,10 +159,16 @@ public class Explorer extends JPanel {
 		panel.add(panel_4, BorderLayout.CENTER);
 		panel_4.setLayout(new BorderLayout(0, 0));
 
-		ScrollExplorer scrollExplorer = new ScrollExplorer();
+		scrollExplorer = new ScrollExplorer(busquedaServ);
 		JPanel panel_5 = new JPanel();
 		panel_4.add(panel_5, BorderLayout.CENTER);
 		panel_5.setLayout(new BorderLayout());
 		panel_5.add(scrollExplorer);
+	}
+	
+	public void buscar(String s) {
+		
+		List<Busqueda> res = buscarServicio.buscar(s);
+		scrollExplorer.resultadosBusqueda(res);
 	}
 }

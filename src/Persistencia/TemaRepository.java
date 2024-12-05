@@ -91,8 +91,8 @@ public class TemaRepository  implements ITemaRepository{
         		+ "Values (?,?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, usuarioID);
-            stmt.setInt(2, temaID);
+            stmt.setInt(1, temaID);
+            stmt.setInt(2, usuarioID);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

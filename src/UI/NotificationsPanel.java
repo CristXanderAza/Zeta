@@ -13,9 +13,17 @@ import java.awt.Font;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
+import Persistencia.NotifyRepository;
 import UI.PublicacionesComponent.NotificacionesBasicView;
+import logica.Notificacion;
+import logica.Servicios.NotificacionesServicio;
 
 public class NotificationsPanel extends JPanel {
+	
+	public JPanel panel_3;
+	private NotificacionesServicio notiservicio = new NotificacionesServicio(new NotifyRepository(), this);
+	private Notificacion notify;
+	private int idReceptor;
 	
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +39,21 @@ public class NotificationsPanel extends JPanel {
 	 * Create the frame.
 	 */
 	
+	public NotificationsPanel(Notificacion notify) {
+		
+		this.notify =notify;
+		
+		if (this.notify != null) {
+            this.idReceptor = notify.getId_receptor();
+        } else {
+            throw new IllegalArgumentException("La notificación no puede ser null");
+        }
+
+	}
+	
 	public NotificationsPanel() {
+		
+		
 		
 		setBounds(100, 100, 500, 590);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,38 +85,26 @@ public class NotificationsPanel extends JPanel {
 		panel.add(panel_2, BorderLayout.CENTER);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
 		
-		JScrollPane scrollPane_1 =    new JScrollPane();
+		JScrollPane scrollPane_1 =  new JScrollPane();
 		panel_2.add(scrollPane_1);
 		
-        JPanel panel_3 = new JPanel();
+        panel_3 = new JPanel();
 		scrollPane_1.setViewportView(panel_3);
 		scrollPane_1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
 		
 		
-		NotificacionesBasicView a = new NotificacionesBasicView ();
-		NotificacionesBasicView b = new NotificacionesBasicView ();
-		NotificacionesBasicView c = new NotificacionesBasicView ();
-		NotificacionesBasicView d = new NotificacionesBasicView ();
-		NotificacionesBasicView f = new NotificacionesBasicView ();
-		NotificacionesBasicView g = new NotificacionesBasicView ();
-		NotificacionesBasicView h = new NotificacionesBasicView ();
-		NotificacionesBasicView i = new NotificacionesBasicView ();
-		NotificacionesBasicView j = new NotificacionesBasicView ();
-		panel_3.add(a);
-		panel_3.add(b);
-		panel_3.add(c);
-		panel_3.add(d);
-		panel_3.add(f);
-		panel_3.add(g);
-		panel_3.add(h);
-		panel_3.add(i);
-		panel_3.add(j);
+		
+		notiservicio.Mostrarnotificaciones(idReceptor);
+		
+		
+		
 		
 	}
+
+}
 
 	
 
     
 
-}

@@ -8,21 +8,51 @@ import java.awt.Dimension;
 import javax.swing.border.SoftBevelBorder;
 
 import UI.PublicacionesComponent.ScrollPerfil;
+import logica.Busqueda;
+import logica.Usuario;
+import logica.Zeta;
+import logica.Servicios.BusquedaServicio;
+import logica.Servicios.IRespuestasServicio;
+import logica.Servicios.IZetasServicio;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
+
+import Persistencia.IUserRepository;
+import Persistencia.IZetasRepository;
+import Persistencia.UserRepository;
 
 public class Perfil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	//private IUserRepository userRepository;
+	private IZetasRepository zetaRepository;
+	private IZetasServicio zetaServicio;
+	private IRespuestasServicio respuestaServicio;
+	private BusquedaServicio bus;
 	/**
 	 * Create the panel.
 	 */
-	public Perfil() {
+	public Perfil(IZetasRepository zetaRepository, IZetasServicio z, IRespuestasServicio respuestaServicio, BusquedaServicio bus) {
+		this.zetaRepository = zetaRepository;
+		this.zetaServicio = z;
+		this.respuestaServicio = respuestaServicio;
+		this.bus = bus;
+    	Usuario u = Usuario.getActual();
+    	//Usuario aMostrar = userRepository.getByID(idUsuario);
+    	//Boolean b = u.loEstoySiguiendo(idUsuario);
+    	int seguidores = UserRepository.CantidadSeguidores(u.getId());
+    	
+		List<Zeta> zetas = zetaRepository.obtenerPorUsuario(u);
+		
+		
+		
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
@@ -54,8 +84,9 @@ public class Perfil extends JPanel {
 		JPanel panel_8 = new JPanel();
 		panel_6.add(panel_8);
 
-		JButton btnNewButton_1 = new JButton("New button");
-		panel_8.add(btnNewButton_1);
+		JButton btnSeguidos = new JButton("Ver seguidos");
+		btnSeguidos.addActionListener(e -> new ScrollUserFollow(bus, formatSeg()));
+		panel_8.add(btnSeguidos);
 
 		JButton btnNewButton = new JButton("New button");
 		panel_8.add(btnNewButton);
@@ -64,11 +95,11 @@ public class Perfil extends JPanel {
 		panel_9.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_6.add(panel_9);
 
-		JLabel lblNewLabelSeguidores = new JLabel("Seguidores :: 100");
+		JLabel lblNewLabelSeguidores = new JLabel("Seguidores : " + seguidores);
 		lblNewLabelSeguidores.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		panel_9.add(lblNewLabelSeguidores);
 
-		ZweetViewer zweetViewer = new ZweetViewer();
+		ZweetViewer zweetViewer = new ZweetViewer(Usuario.getActual(), zetaServicio, zetas, respuestaServicio);
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_4.add(panel_2);
@@ -113,8 +144,9 @@ public class Perfil extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("Tendencia 2");
 		panel_15.add(lblNewLabel_1);
 
-		JButton btnNewButton_2 = new JButton("New button");
-		panel_14.add(btnNewButton_2);
+		JButton btnSeguidores = new JButton("Ver Seguidos");
+		
+		panel_14.add(btnSeguidores);
 
 		JPanel panel_14_1 = new JPanel();
 		panel_14_1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -141,5 +173,19 @@ public class Perfil extends JPanel {
 		JLabel lblNewLabelPerfil = new JLabel("Perfil");
 		lblNewLabelPerfil.setFont(new Font("Century Gothic", Font.BOLD, 20));
 		panel_5.add(lblNewLabelPerfil);
+	}
+	
+	
+	
+	
+	
+	private List<Busqueda> formatSeg(){
+		List<Usuario> seg = Usuario.getActual().getSeguidos();
+		List<Busqueda> bus = new ArrayList<Busqueda>();
+		for (Usuario usuario : seg) {
+			bus.add(new Busqueda(usuario.getId(), usuario.getUsername(), "Perfil", UserRepository.CantidadSeguidores(usuario.getId())));
+		}
+		return bus;
+		
 	}
 }

@@ -151,10 +151,11 @@ public class Login {
 		btnNewButton.addActionListener(e -> inciarSesion());
 		panel_3.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Registrarte");
-		btnNewButton_1.setFont(new Font("Century Gothic", Font.PLAIN, 17));
-		btnNewButton_1.setBackground(Color.GRAY);
-		frmLogin.getContentPane().add(btnNewButton_1, BorderLayout.SOUTH);
+		JButton btnRegistrar = new JButton("Registrarte");
+		btnRegistrar.addActionListener(e -> App.registrar());
+		btnRegistrar.setFont(new Font("Century Gothic", Font.PLAIN, 17));
+		btnRegistrar.setBackground(Color.GRAY);
+		frmLogin.getContentPane().add(btnRegistrar, BorderLayout.SOUTH);
 	}
 	
 	private void inciarSesion() {

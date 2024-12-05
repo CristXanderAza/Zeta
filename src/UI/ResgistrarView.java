@@ -26,6 +26,7 @@ import logica.Servicios.IUserServicio;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 
@@ -90,6 +91,8 @@ public class ResgistrarView {
 		this.usuarioServicio = usuarioServicio;
 		this.actualizando = false;
 		this.temaRepo = temaRepo;
+		initialize();
+		frame.setVisible(true);
 	}
 
 	public ResgistrarView(Usuario u, IUserServicio usuarioServicio, ITemaRepository temaRepo) {
@@ -242,9 +245,25 @@ public class ResgistrarView {
 		String usuario = txtUsername.getText();
 		String correo = txtCorreo.getText();
 		String contrasenia = txtContrasenia.getText();
-		if(contrasenia.equals(txtContraseniaRep.getText())) {
-			usuarioServicio.CrearNuevoUsuario(nombre, correo, usuario, contrasenia, obtenerTodosLosObjetos());
+		if(!(nombre.isBlank() || usuario.isBlank() || correo.isBlank() || contrasenia.isBlank() || txtContraseniaRep.getText().isBlank())) {
+			if(contrasenia.equals(txtContraseniaRep.getText())) {
+				Boolean b = usuarioServicio.CrearNuevoUsuario(nombre, correo, usuario, contrasenia, obtenerTodosLosObjetos());
+				if(b) {
+					frame.dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Este username ya exite", "Registro fallido", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Registro fallido", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
+		else {
+			JOptionPane.showMessageDialog(null, "Complete todos los campos, por favor", "Registro fallido", JOptionPane.INFORMATION_MESSAGE);
+			
+		}
+
 		
 	}
 }
