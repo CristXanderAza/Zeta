@@ -106,7 +106,7 @@ public class ZweetBasicView extends JPanel {
 			panel_2.add(btnRezweet);
 			
 		}
-		
+		/*
 		if (zeta.getBody().contains("#") ||zeta.getBody().contains("@") ) {
 			JButton btnRef = new JButton("Ver Referencia");
 			btnRef.setEnabled(activarBotones);
@@ -118,7 +118,7 @@ public class ZweetBasicView extends JPanel {
 			btnRef.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 			panel_2.add(btnRef);
 		}
-		
+		*/
 		JButton btnPerfil = new JButton("Perfil");
 		btnPerfil.addActionListener(e -> App.visualizarPerfil(zeta.getUsuario().getId()));
 		btnPerfil.setEnabled(activarBotones);

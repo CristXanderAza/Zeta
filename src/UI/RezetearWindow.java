@@ -143,9 +143,9 @@ public class RezetearWindow {
             }
             private void updateCharacterCount() {
                 int carac = txtZeta.getText().length();
-                lblCaracteres.setText(carac + "/280");
+                lblCaracteres.setText(carac + "/250");
 
-                if (carac > 280) {
+                if (carac > 250) {
                 	btnRezetear.setEnabled(false);
                     lblCaracteres.setForeground(Color.RED);
                 } else {
@@ -156,9 +156,9 @@ public class RezetearWindow {
 
             private void onChange() {
                 int carac = txtZeta.getText().length();
-                lblCaracteres.setText(carac + "/280");
+                lblCaracteres.setText(carac + "/250");
 
-                if (carac > 280) {
+                if (carac > 250) {
                 	btnRezetear.setEnabled(false);
                     lblCaracteres.setForeground(Color.RED);
                 } else {

@@ -89,7 +89,7 @@ public class Perfil extends JPanel {
 		panel_8.add(btnSeguidos);
 
 		JButton btnNewButton = new JButton("New button");
-		panel_8.add(btnNewButton);
+		//panel_8.add(btnNewButton);
 
 		JPanel panel_9 = new JPanel();
 		panel_9.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -122,12 +122,12 @@ public class Perfil extends JPanel {
 
 		JPanel panel_12 = new JPanel();
 		panel_11.add(panel_12);
-		panel_12.setLayout(new BorderLayout(0, 0));
+		//panel_12.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_13 = new JPanel();
 		panel_13.setBorder(new TitledBorder(null, "Tendencia", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.Y_AXIS)); 
-		panel_12.add(panel_13);
+		//panel_12.add(panel_13);
 
 		JPanel panel_14 = new JPanel();
 		panel_14.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));

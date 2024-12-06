@@ -153,12 +153,6 @@ public class Pantalla {
 		rdbtnNotif.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		panel_2.add(rdbtnNotif);
 		
-		JRadioButton rdbtnMensajes = new JRadioButton("Mensajes");
-		bgroup.add(rdbtnMensajes);
-		rdbtnMensajes.setForeground(Color.WHITE);
-		rdbtnMensajes.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2.add(rdbtnMensajes);
-		
 		JRadioButton rdbtnPerfil = new JRadioButton("Perfil");
 		rdbtnPerfil.addActionListener(e -> actualizarVista(new Perfil(zetaRepo, zetaServicio, respuestaServicio, busquedaServicio)));
 		bgroup.add(rdbtnPerfil);
@@ -188,5 +182,9 @@ public class Pantalla {
 	    frmZeta.getContentPane().revalidate();
 	    frmZeta.getContentPane().repaint();
 	
+	}
+	
+	public void dispose() {
+		frmZeta.dispose();
 	}
 }

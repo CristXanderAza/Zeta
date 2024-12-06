@@ -16,6 +16,21 @@ import logica.Usuario;
 
 public class UserRepository implements IUserRepository{
 
+	
+	
+	private static List<Usuario> cache;
+	
+	
+	
+	public UserRepository() {
+		cache = new ArrayList<Usuario>();
+	}
+	
+	
+	public static void clean() {
+		cache.clear();
+	}
+	
 	@Override
 	public int add(Usuario u) {
 	    Date todaydate = new Date(System.currentTimeMillis());
@@ -70,6 +85,7 @@ public class UserRepository implements IUserRepository{
 					//Paso 2: Buscar las cuentas que sigue el usuario
 					
 					usuario.setSeguidos(UserRepository.SearchFollowedUsers(id));
+					cache.add(usuario);
 					return usuario;
 				}
 			} catch (SQLException e) {
@@ -81,6 +97,11 @@ public class UserRepository implements IUserRepository{
 
 	@Override
 	public Usuario getByID(int id) {
+		Usuario u = buscarUsuarioEnCache(id);
+		
+		if(u != null) {
+			return u;
+		}
 		String sql = "select * From cuenta Where id_cuenta = ?";
 		try (Connection con = DBConnection.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql)){
@@ -95,8 +116,9 @@ public class UserRepository implements IUserRepository{
 				String contrasenia = rs.getString("contrasena");
 				
 				Usuario usuario = new Usuario(id, nombreCuenta, correo, username, contrasenia, verificado);
-				
+				 
 				usuario.setSeguidos(UserRepository.SearchFollowedUsers(id));
+				cache.add(usuario);
 				return usuario;
 			}
 		} catch (SQLException e) {
@@ -106,7 +128,14 @@ public class UserRepository implements IUserRepository{
 		return null;
 	}
 	
-	
+	public  static  Usuario buscarUsuarioEnCache(int id) {
+		for (Usuario usuario : cache) {
+			if(usuario.getId() == id) {
+				return usuario;
+			}
+		}
+		return null;
+	}
 	
 	
 	public static Usuario obtenerPorID(int id) {
@@ -224,7 +253,9 @@ public class UserRepository implements IUserRepository{
 	                    String contraseniaSeguido = rs2.getString("contrasena");
 
 	                    // Añadir cuenta seguida a la lista
-	                    seguidos.add(new Usuario(indice, nombreCuentaSeguido, correoSeguido, usernameSeguido, contraseniaSeguido, verificadoSeguido));
+	                    Usuario u =new Usuario(indice, nombreCuentaSeguido, correoSeguido, usernameSeguido, contraseniaSeguido, verificadoSeguido);
+	                    seguidos.add(u);
+	                    cache.add(u);
 	                }
 	            }
 	        }

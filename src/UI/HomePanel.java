@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import Base.App;
 import Persistencia.HashtagRepository;
 import Persistencia.ITemaRepository;
 import logica.HashtagWithDataDTO;
@@ -84,13 +85,10 @@ public class HomePanel extends JPanel implements ChangeListener{
 		JPanel panel_3 = new JPanel();
 		panel_9.add(panel_3);
 		
-		JButton btnNewButton = new JButton("Editar");
-		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_3.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Cerrar");
-		btnNewButton_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_3.add(btnNewButton_1);
+		JButton btnCerrar = new JButton("Cerrar");
+		btnCerrar.addActionListener(e -> App.cerrarSesion());
+		btnCerrar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_3.add(btnCerrar);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new TitledBorder(null, "Tendencia", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
@@ -225,9 +223,9 @@ public class HomePanel extends JPanel implements ChangeListener{
             }
             private void updateCharacterCount() {
                 int carac = txtZeta.getText().length();
-                lblCaracteres.setText(carac + "/280");
+                lblCaracteres.setText(carac + "/250");
 
-                if (carac > 280) {
+                if (carac > 250) {
                     btnPublicar.setEnabled(false);
                     lblCaracteres.setForeground(Color.RED);
                 } else {
@@ -238,9 +236,9 @@ public class HomePanel extends JPanel implements ChangeListener{
 
             private void onChange() {
                 int carac = txtZeta.getText().length();
-                lblCaracteres.setText(carac + "/280");
+                lblCaracteres.setText(carac + "/250");
 
-                if (carac > 280) {
+                if (carac > 250) {
                     btnPublicar.setEnabled(false);
                     lblCaracteres.setForeground(Color.RED);
                 } else {
@@ -263,11 +261,6 @@ public class HomePanel extends JPanel implements ChangeListener{
 		btnImagen.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		btnImagen.setBounds(14, 104, 92, 17);
 		panel_6.add(btnImagen);
-		
-		JButton btnHilo = new JButton("Hilo");
-		btnHilo.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnHilo.setBounds(105, 104, 92, 17);
-		panel_6.add(btnHilo);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(null, "JPanel title", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -299,19 +292,19 @@ public class HomePanel extends JPanel implements ChangeListener{
 		lblHash1.setText(topHashtag.get(0).getNombre());
 		lblHash2.setText(topHashtag.get(1).getNombre());
 		lblHash3.setText(topHashtag.get(2).getNombre());
-		//lblHash4.setText(topHashtag.get(3).getNombre());
+		lblHash4.setText(topHashtag.get(3).getNombre());
 		
 		
 		lblHashCan1.setText("" + topHashtag.get(0).getCantidadPost());
 		lblHashCan2.setText("" + topHashtag.get(1).getCantidadPost());
 		lblHashCan3.setText("" + topHashtag.get(2).getCantidadPost());
-		//lblHashCan4.setText("" + topHashtag.get(3).getCantidadPost());
+		lblHashCan4.setText("" + topHashtag.get(3).getCantidadPost());
 
 		
 		btnHash1.addActionListener(e -> mostrarHashPanel(topHashtag.get(0)));
 		btnHash2.addActionListener(e -> mostrarHashPanel(topHashtag.get(1)));
 		btnHash3.addActionListener(e -> mostrarHashPanel(topHashtag.get(2)));
-		//btnHash4.addActionListener(e -> mostrarHashPanel(topHashtag.get(3)));
+		btnHash4.addActionListener(e -> mostrarHashPanel(topHashtag.get(3)));
 	}
 
 
@@ -396,6 +389,6 @@ public class HomePanel extends JPanel implements ChangeListener{
     }
     
     private void mostrarHashPanel(HashtagWithDataDTO dto) {
-    	
+    	App.visualizarZetasPorHashtag(dto.getId());
     }
 }

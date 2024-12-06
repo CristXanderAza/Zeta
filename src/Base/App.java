@@ -109,9 +109,14 @@ public class App {
     	Boolean b = u.loEstoySiguiendo(idUsuario);
     	int seguidores = UserRepository.CantidadSeguidores(idUsuario);
     	List<Zeta> zetas = zetaRepository.obtenerPorUsuario(aMostrar);
-    	ProfileViewPanel pro = new ProfileViewPanel(zetas, aMostrar.getNombre(), seguidores, zetaServicio, respuestaServicio,
+    	ProfileViewPanel pro = new ProfileViewPanel(zetas, aMostrar.getUsername(), seguidores, zetaServicio, respuestaServicio,
     			userServicio, b, aMostrar.getId());
     	
+    }
+    
+    public static void cerrarSesion() {
+    	pantalla.dispose();
+    	login = new Login(userServicio);
     }
     
     public static void registrar() {

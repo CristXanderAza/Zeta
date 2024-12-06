@@ -176,9 +176,9 @@ public class RespuestaWindow {
             }
             private void updateCharacterCount() {
                 int carac = txtZeta.getText().length();
-                lblCaracteres.setText(carac + "/280");
+                lblCaracteres.setText(carac + "/250");
 
-                if (carac > 280) {
+                if (carac > 250) {
                     btnResponder.setEnabled(false);
                     lblCaracteres.setForeground(Color.RED);
                 } else {
@@ -189,9 +189,9 @@ public class RespuestaWindow {
 
             private void onChange() {
                 int carac = txtZeta.getText().length();
-                lblCaracteres.setText(carac + "/280");
+                lblCaracteres.setText(carac + "/250");
 
-                if (carac > 280) {
+                if (carac > 250) {
                 	btnResponder.setEnabled(false);
                     lblCaracteres.setForeground(Color.RED);
                 } else {

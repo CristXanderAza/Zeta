@@ -110,6 +110,7 @@ public class ProfileViewPanel {
 		panel_4.add(lblNewLabel_1);
 		
 		btnSeguir = new JButton("Seguir");
+		btnSeguir.setEnabled(Usuario.getActual().getId() != UserId);
 		btnSeguir.addActionListener(e -> seguir());
 		btnSeguir.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		botonSeguirUpdate();

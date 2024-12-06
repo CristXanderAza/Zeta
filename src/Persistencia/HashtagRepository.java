@@ -160,7 +160,19 @@ public class HashtagRepository implements IHashtagRepository {
     
     public static List<HashtagWithDataDTO> obtenerTop4() {
         List<HashtagWithDataDTO> hashtags = new ArrayList<>();
-        String sql = "SELECT * FROM hashtags limit 4";
+        String sql = "SELECT \r\n"
+        		+ "    h.id_hashtag,\r\n"
+        		+ "    h.nombre,\r\n"
+        		+ "    COUNT(hz.id_hashtag_zeta) AS cuenta\r\n"
+        		+ "FROM \r\n"
+        		+ "    hashtags h\r\n"
+        		+ "LEFT JOIN \r\n"
+        		+ "    hashtags_zetas hz ON h.id_hashtag = hz.id_hashtag\r\n"
+        		+ "GROUP BY \r\n"
+        		+ "    h.id_hashtag\r\n"
+        		+ "ORDER BY \r\n"
+        		+ "    cuenta Desc\r\n"
+        		+ "LIMIT 4;";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

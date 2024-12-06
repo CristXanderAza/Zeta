@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import Base.App;
 import UI.ZweetViewer;
 import logica.Respuesta;
 import logica.Zeta;
@@ -115,7 +116,7 @@ public class ZetaImagenView extends JPanel {
 			panel_2_1.add(btnRezweet);
 			
 		}
-		
+		/*
 		if (zeta.getBody().contains("#") ||zeta.getBody().contains("@") ) {
 			JButton btnRef = new JButton("Ver Referencia");
 			btnRef.setEnabled(activarBotones);
@@ -126,10 +127,11 @@ public class ZetaImagenView extends JPanel {
 			});
 			btnRef.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 			panel_2_1.add(btnRef);
-		}
-		JButton btnNewButton = new JButton("Perfil");
-		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2_1.add(btnNewButton);
+		}*/
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.addActionListener(e -> App.visualizarPerfil(zeta.getUsuario().getId()));
+		btnPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2_1.add(btnPerfil);
 	}
 	
 	private ImageIcon generarImagen(String ruta, int width, int heigth) {

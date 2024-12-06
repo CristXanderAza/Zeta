@@ -42,7 +42,7 @@ public class Explorer extends JPanel {
 		JPanel panel_6 = new JPanel();
 		panel_6.setBorder(new TitledBorder(null, "Perfil", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
-		panel_1.add(panel_6);
+		//panel_1.add(panel_6);
 
 		JLabel lblUserName = new JLabel("Usuario");
 		lblUserName.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -51,7 +51,7 @@ public class Explorer extends JPanel {
 
 		JPanel panel_7 = new JPanel();
 		panel_7.setMaximumSize(new Dimension(200, 40));
-		panel_6.add(panel_7);
+		//panel_6.add(panel_7);
 
 		JButton btnEditPerfil = new JButton("Editar");
 		btnEditPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -64,7 +64,7 @@ public class Explorer extends JPanel {
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new TitledBorder(null, "Tendencias", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 		panel_8.setLayout(new BoxLayout(panel_8, BoxLayout.Y_AXIS));
-		panel_1.add(panel_8);
+		//panel_1.add(panel_8);
 
 		JPanel panel_10 = new JPanel();
 		panel_10.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -170,5 +170,6 @@ public class Explorer extends JPanel {
 		
 		List<Busqueda> res = buscarServicio.buscar(s);
 		scrollExplorer.resultadosBusqueda(res);
+		repaint();
 	}
 }

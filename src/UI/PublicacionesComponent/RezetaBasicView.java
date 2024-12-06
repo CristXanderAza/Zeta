@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
+import Base.App;
 import UI.ZweetViewer;
 import logica.Respuesta;
 import logica.Zeta;
@@ -105,8 +106,22 @@ public class RezetaBasicView extends JPanel {
 			btnRezweet.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 			panel_2_1.add(btnRezweet);
 			
+			
+			
+			JButton btnVerPadre = new JButton("Padre");
+			btnVerPadre.setEnabled(activarBotones);
+			if(zeta.getParent().getImageReference() != null) {
+				btnVerPadre.addActionListener(e -> {
+					System.out.println("Rezeta");
+					contenedor.Rezetear(zeta.getParent());
+				});
+				btnVerPadre.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+				panel_2_1.add(btnVerPadre);
+			}
+
+			
 		}
-		
+		/*
 		if (zeta.getBody().contains("#") ||zeta.getBody().contains("@") ) {
 			JButton btnRef = new JButton("Ver Referencia");
 			btnRef.setEnabled(activarBotones);
@@ -118,11 +133,12 @@ public class RezetaBasicView extends JPanel {
 			btnRef.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 			panel_2_1.add(btnRef);
 		}
+		*/
 		
-		
-		JButton btnNewButton = new JButton("Perfil");
-		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		panel_2_1.add(btnNewButton);
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.addActionListener(e -> App.visualizarPerfil(zeta.getUsuario().getId()));
+		btnPerfil.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		panel_2_1.add(btnPerfil);
 	}
 
 	

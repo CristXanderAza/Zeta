@@ -70,7 +70,7 @@ public class ScrollZetaViewer {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 545, 511);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
